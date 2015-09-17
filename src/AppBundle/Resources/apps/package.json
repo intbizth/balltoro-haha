@@ -1,0 +1,28 @@
+{
+  "name": "balltoro-haha",
+  "version": "1.0.0",
+  "description": "Balltoro",
+  "main": "Gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Balltoro"
+  ],
+  "author": "ツ Liverbool <nukboon@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.0.1",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-copy": "0.0.2",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-requirejs-optimize": "^0.3.0",
+    "gulp-sass": "^2.0.4",
+    "gulp-size": "^2.0.0",
+    "gulp-util": "^3.0.6",
+    "run-sequence": "^1.1.2"
+  }
+}
