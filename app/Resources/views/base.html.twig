@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Balltoro HaHa{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+
+    <meta property="og:url" content="http://haha.balltoro.com"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="HaHa Balltoro.com"/>
+    <meta property="og:description" content="คำบอล สนุกๆ"/>
+    <meta property="og:image" content="{{ asset('favicon.ico') }}"/>
 </head>
 <body>
 <div ng-controller="ToroHaha">
