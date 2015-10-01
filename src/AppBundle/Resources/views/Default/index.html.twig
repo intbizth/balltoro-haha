@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <!--
     <canvas id="canvas"></canvas>
     <div class="ui raised segment" style="position: absolute; bottom: 0; opacity: .8; top: 20px; left: 20px">
         <div class="ui input">
@@ -9,17 +10,136 @@
         <div class="ui input">
             <input ng-model="actorText" type="text" placeholder="Type...">
         </div>
-        <button class="ui blue button" type="button" ng-click="saveAs()">Save</button>
+        <button class="ui blue button" type="button" ng-click="saveAs()">SaveNa</button>
+    </div>-->
+
+<div class="container-fluid myHead">
+    <div class="row">
+    <div class="col-sm-2">&nbsp;</div>
+    <div class="col-sm-6">[LOGO BALLTORO]</div>
+    <div class="col-sm-3">[LOGO MEME]</div>
+  </div>
+</div>
+<div class="container-fluid myBar">
+    <div class="row">
+        <div class="col-sm-1">&nbsp;</div>
+        <div class="col-sm-5">------ Meme คำบอลโดนๆ สนุกกับฟุตบอลอย่างสร้างสรรค์</div>
+        <div class="col-sm-3"><i>[space]</i></div>
+        <div class="col-sm-1">ติดตามข่าวสารฟุตบอล ผลบอล TPL, BPL ได้ที่ www.facebook.com/balltoro/ </div>
     </div>
+</div>
+
+<div>
+    <div class="container myContainer">
+        <div class="col-sm-6">
+            <legend><b> Balltoro Meme Maker </b></legend>
+            <button class="btn btn-primary btn-small"> Like</button> 3523959 like this site
+            <br/>
+            <canvas id="canvas"></canvas>
+        </div>
+
+
+        <div class="col-sm-6" style="text-align:center;">
+            <fieldset>
+                <legend>ตั้งค่า</legend>
+                กว้าง:
+                <input width="75px" type="number"  style="height: 30px"  ng-model='imgWidth' ng-change="applyChange()" placeholder="100" value="100"/>px
+                <br/>
+                font :
+                <select ng-model="font_face" ng-init="font_face = fontList[0]" ng-change="applyChange()" ng-options="fnt.name for fnt in fontList"></select>
+                <br/>{{ '{{font_face.name}}' }}
+
+                <legend>ข้อความ 1</legend>
+                Top align<br/>
+                <button class="btn" ng-click="txtAlign(0, 'left')">Left</button>
+                <button class="btn" ng-click="txtAlign(0, 'center')">Center</button>
+                <button class="btn" ng-click="txtAlign(0, 'right')">Right</button>
+                <br/>
+
+                <div class="col-xs-5">
+                    <label for="ex1">font size</label>
+                    <input id="ex1" class="form-control" style="height: 30px" type="number" ng-model='memeArray[0].size' ng-change="applyChange()" placeholder="100" value="100"/>
+                </div>
+                <div>
+                    <ul class="picker">
+                        <li class="colorPicker" ng-repeat="color in colors" ng-class="{selected: (color==memeArray[0].color)}" ng-click="pickFontColor(0, color)" ng-style="{'background-color':color};"></li>
+                    </ul>
+                </div>
+
+                shadow:
+                <ul class="picker">
+                    <li class="colorPicker" ng-repeat="color in shadows" ng-class="{selected: (color==memeArray[0].shadowColor)}" ng-click="pickShadowColor(0, color)" ng-style="{'background-color':color};">
+                    </li>
+                </ul>
+
+                <textarea rows="4" cols="50" ng-model='memeArray[0].memeText' ng-change="applyChange()"></textarea>
+                <hr/>
+
+                <br/>
+                <legend>ข้อความ 2</legend>
+
+                Bottom align<br/>
+                <button class="btn" ng-click="txtAlign(1, 'left')">Left</button>
+                <button class="btn" ng-click="txtAlign(1, 'center')">Center</button>
+                <button class="btn" ng-click="txtAlign(1, 'right')">Right</button>
+
+                <br/>
+                <div class="col-xs-5">
+                    <label for="ex1">font size</label>
+                    <input id="ex1" class="form-control" style="height: 30px" type="number" ng-model='memeArray[1].size' ng-change="applyChange()" placeholder="100" value="100"/>
+                </div>
+
+                <textarea rows="4" cols="50" ng-model='memeArray[1].memeText' ng-change="applyChange()"></textarea>
+                <br/>
+                <div>
+                    <ul class="picker">
+                        <li class="colorPicker" ng-repeat="color in colors" ng-class="{selected: (color==memeArray[1].color)}" ng-click="pickFontColor(1, color)" ng-style="{'background-color':color};"></li>
+                    </ul>
+                </div>
+                shadow:
+                <ul class="picker">
+                    <li class="colorPicker" ng-repeat="color in shadows" ng-class="{selected: (color==memeArray[1].shadowColor)}" ng-click="pickShadowColor(1, color)" ng-style="{'background-color':color};"></li>
+                </ul>
+                <br/>
+                <button class="btn btn-large" ng-click="repeatSwear(true)">CheckSwears</button>
+                <button class="btn btn-large" ng-click="repeatSwear(false)">remove CheckSwears</button>
+
+            </fieldset>
+        </div>
+
+
+    </div>
+
+    <div class="container myContainer">
+        <button class="btn btn-large" ng-click="reset()">Reset</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-large btn-primary" ng-click="create()">Save Image</button>
+
+        <br/>
+        <b>Select Meme: <b/>
+        <div class="preview-wrap">
+            <img ng-src="{{ '{{pic.path}}' }}" ng-repeat="pic in memeList" ng-click="applyImage(pic.path)" class="meme"></img>
+        </div>
+
+    </div>
+</div>
+
+<footer class="footer"> by <a href="http://balltoro.com">Balltoro.com</a> </footer>
+
+
 {% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('bundles/app/css/style.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/css/bootstrap.min.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/app/js/app.min.js') }}"></script>
-    <script type="text/javascript">require(['toro/app'], function() {angular.bootstrap(document, ['haha']);});</script>
+    <script src="{{ asset('bundles/app/js/jquery-1.9.1.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/angular.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/app.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/json_decode.js') }}"></script>
+
+    <!--<script type="text/javascript">require(['toro/app'], function() {angular.bootstrap(document, ['haha']);});</script>-->
     <div id="fb-root"></div>
     <script>
         (function (d, s, id) {

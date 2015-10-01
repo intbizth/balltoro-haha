@@ -1,0 +1,66 @@
+#canvas {
+    border:1px solid #ddd;
+}
+body {
+    background-color : #f1f1f1;
+    }
+
+.myHead {
+    background-color: #1d1b1c;
+    height: 80px;
+    color: #FFF;
+    }
+
+.myBar {
+    background-color: #0672bc;
+    color: #FFF;
+    white-space: nowrap;
+}
+
+.myContainer {
+    background-color: white;
+    padding-top: 50px;
+    /*margin: auto 80 auto 80;*/
+}
+
+.myColorbox {
+    background-color: #dbdada;
+    text-align: center;
+}
+
+.meme {
+    display: inline-block;
+    border: 1px solid #aaa;
+    width: 120px;
+    height :120px;
+}
+
+.canvas {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/*--Color Picker--*/
+
+ng-color-picker ul {
+    padding: 0;
+    margin: 0;
+}
+
+li.colorPicker  {
+    width:23px;
+    height:23px;
+    box-sizing:border-box;
+    display:inline-block;
+    border: 4px solid #dbdada;
+}
+
+li.colorPicker.selected {
+    border: 3px solid #333;
+
+}
+
+.picker {
+    margin: 0;
+    text-align: center;
+}
