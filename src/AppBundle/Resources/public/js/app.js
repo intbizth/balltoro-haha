@@ -12,6 +12,7 @@ app.controller('ToroHaha',function($scope) {
     $scope.selectedImage = 'http://i.imgur.com/WA5duA1.jpg';
     $scope.imgWidth = 500; //Default scale
     $scope.font_face = 'Impact';
+    $scope.selectedMemeText = 0;
 
     var $canvas = $("#canvas");
     var canvasOffset = $canvas.offset();
@@ -27,32 +28,41 @@ app.controller('ToroHaha',function($scope) {
     var selectedText = -1;
 //================= Meme properties array ==================//
 $scope.memeArray = [
-{
-    memeText: "บอลโตโร่",
-    x: 250, y: 70, w: 0, h: 0, align: "center", size: 60, color: '#FFFFFF', shadowColor: '#000000', dragable: true
-},
-{
-    memeText: "เป็ด",
-    x: 250, y: 400, w: 0, h: 0, align: "center", size: 50, color: '#d40023', shadowColor: '#000000', dragable: true
-},
-{
-    memeText: "www.Balltoro.com",
-    x: 490, y: 480, w: 0, h: 0, align: "right", size: 22, color: '#FFFFFF', shadowColor: '#000000', dragable: false
-}];
+        {
+            memeText: "บอลโตโร่",
+            x: 250, y: 70, w: 0, h: 0, align: "center", size: 60, color: '#FFFFFF', shadowColor: '#000000', border: 8, dragable: true
+        },
+        {
+            memeText: "Winner",
+            x: 250, y: 400, w: 0, h: 0, align: "center", size: 50, color: '#d40023', shadowColor: '#000000', border: 8, dragable: true
+        },
+        {
+            memeText: "www.Balltoro.com",
+            x: 490, y: 480, w: 0, h: 0, align: "right", size: 22, color: '#FFFFFF', shadowColor: '#000000', border: 2, dragable: false
+        }];
 
 //=================Font list======================//
-$scope.fontList = [
-{
-    name: 'Impact'
-},
-{
-    name: 'Comic Sans MS'
-},
-{
-    name: 'FreesiaUPC'
-}
-];
+        $scope.fontList = [
+    {
+        name: 'Impact'
+    },
+    {
+        name: 'Comic Sans MS'
+    },
+    {
+        name: 'FreesiaUPC'
+    }
+    ];
 $scope.fontList2 = ['Impact','Comic Sans MS','FreesiaUPC'   ]; //กรณี 2
+
+//============ font size =============//
+$scope.numRange = function(start, end, skip) {
+    var num = [];
+    for (var i = start; i <= end; i+=skip) {
+        num.push(i);
+    }
+    return num;
+};
 
 //==============Color List=================//
     $scope.colors = ['#FFFFFF', '#000000', '#d40023', '#dae500', '#216cb6'];
@@ -101,36 +111,37 @@ $scope.applyChange = function(){ draw(); }
 
 function draw() {
     var img = new Image();
-    img.setAttribute('crossOrigin','anonymous'); //This is a CORS issue
 
-    //var canvas = document.getElementById("canvas");
-    var canvas = angular.element('#canvas')[0];
+    img.setAttribute('crossOrigin','anonymous'); //บรรทัดนี้ทำให้งานมีปัญหา แต่ถ้าไม่มีก็เซิฟภาพไม่ได้ //This is a CORS issue
+
+    var canvas = document.getElementById("canvas");
+    var newWidth = canvas.offsetWidth; //get current Width when canvas responsive to smaller
+    console.log('NW: '+newWidth);
+
     var ctx = canvas.getContext("2d"),
             width = width || $scope.imgWidth,
-            height = width || 500,
+            height = width || $scope.imgWidth,
             //Scale
             _w = 500, _h = 500;
-    img.src= $scope.selectedImage;
+        img.src= $scope.selectedImage;
 
-    img.onload = function() {
-        canvas.width = width;
-        canvas.height = height;
+        img.onload = function() {
+            canvas.width = width;
+            canvas.height = height;
 
-        ctx.scale(width/500, height/500);
-        ctx.clearRect(0, 0, canvas.width, canvas.height); //Clear Canvas ก่อน
-        ctx.drawImage(this, 0, 0, _w, _h); //ลงรูป
+            ctx.scale(width/500, height/500);
+            ctx.clearRect(0, 0, canvas.width, canvas.height); //Clear Canvas ก่อน
+            ctx.drawImage(this, 0, 0, _w, _h); //ลงรูป
 
-        for (var i = 0; i < $scope.memeArray.length; i++) { //ทำซ้ำตาม จน. ข้อความ
+            for (var i = 0; i < $scope.memeArray.length; i++) { //ทำซ้ำตาม จน. ข้อความ
             $scope.drawText(ctx, $scope.memeArray[i], $scope.memeArray[i].x, $scope.memeArray[i].y);
-        }
+            }
     }
 }
 
     $scope.drawText = function(ctx, ARR, x, y) {
         //Set the text styles
         ARR.memeText = ARR.memeText.toString().toUpperCase();
-        //ARR.memeText = _(ARR.memeText);
-
         ctx.font = "bold " + ARR.size + "px "+$scope.font_face.name;
         ctx.fillStyle = ARR.color;
         ctx.textAlign = ARR.align; //ชิดซ้ายขวา?
@@ -140,10 +151,13 @@ function draw() {
         ctx.shadowOffsetX = 3;
         ctx.shadowOffsetY = 2;
         ctx.shadowBlur = 3;
+
         //ctx.globalAlpha = 0.6; //Opacity
         ctx.textBaseline = "middle";
-        ctx.lineWidth = 7;
+        ctx.lineWidth = ARR.border;
         ctx.strokeStyle = "#000";
+
+        //==================
 
         var lineheight = ARR.size*1.3; //ความสูงของบรรทัด //50
         var lines = ARR.memeText.toString().split('\n'); //ตัด \n ลง Array
@@ -160,6 +174,28 @@ function draw() {
         }
     }
 
+    function selectHighlight(index){
+        var keepBorder = $scope.memeArray[index].border;
+        var startBorder = 80;
+
+        //=== blink panel ===//
+        $("#blink").addClass("backgroundBlink");
+        var blinkInterval = setInterval(function(){ $("#blink").removeClass("backgroundBlink"); clearInterval(blinkInterval);},500);
+        //=== animate selected text border ===//
+        var myInterval = setInterval(function(){
+            if (startBorder > keepBorder){
+                $scope.memeArray[index].border = startBorder;
+                draw();
+                startBorder-= 5;
+            }
+            else
+            {
+                clearInterval(myInterval);
+                $scope.memeArray[index].border = keepBorder;
+            }
+
+        }, 10);
+    }
 //============== Hittest ==============//
 function textHittest(x, y, textIndex) {
     var text = $scope.memeArray[textIndex];
@@ -170,9 +206,16 @@ function textHittest(x, y, textIndex) {
 
     switch (text.align){
         case "left": hitLessAlign = 0; break;
-        case "center": hitLessAlign = text.w / 2; hitLessWidth = text.w - hitLessAlign; break;
+        case "center": hitLessAlign = text.w / 2 + 80; hitLessWidth = text.w - hitLessAlign; break;
         case "right": hitLessAlign = text.w; hitLessWidth = text.w; break;
     }
+
+    //===============
+    var canvas = document.getElementById("canvas");
+    var newWidth = canvas.offsetWidth;
+    var newHeight = canvas.offsetHeight;
+
+
     console.log('newWidth:'+hitLessAlign);
     console.log('align:'+text.w);
 
@@ -197,9 +240,14 @@ function handleMouseDown(e) {
     startX = getMousePos(e).x; //pageX
     startY = getMousePos(e).y;
 
+    //check what am i clicking
     for (var i = 0; i < $scope.memeArray.length; i++) {
         if (textHittest(startX, startY, i)) {
-            if ($scope.memeArray[i].dragable == true) selectedText = i; //ลากได้ไหม ยกเว้นเครดิต
+            if ($scope.memeArray[i].dragable == true){
+                selectHighlight(i);
+                $scope.$apply(function(){$scope.selectedMemeText = i;}); //เปลี่ยน ค่าต่างใน element panel
+                selectedText = i; //ลากได้ไหม ยกเว้นเครดิต
+            }
         }
     }
 }
@@ -240,6 +288,7 @@ $("#canvas").mouseup(function (e) {
 $("#canvas").mouseout(function (e) {
     handleMouseUp(e); //ใช้เดียวกัน
 });
+
 
 //============== HTML button event ===============//
     $scope.txtAlign = function(index, align){ //ปุ่มจัดชิด

@@ -13,104 +13,82 @@
         <button class="ui blue button" type="button" ng-click="saveAs()">SaveNa</button>
     </div>-->
 
-<div class="container-fluid myHead">
-    <div class="row">
-    <div class="col-sm-2">&nbsp;</div>
-    <div class="col-sm-6">[LOGO BALLTORO]</div>
-    <div class="col-sm-3">[LOGO MEME]</div>
-  </div>
+<div class="row headcover">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-4"><div class="logo1"></div></div>
+    <div class="col-sm-4"><div class="logo2"></div></div>
+    <div class="col-sm-2"></div>
 </div>
 <div class="container-fluid myBar">
     <div class="row">
         <div class="col-sm-1">&nbsp;</div>
         <div class="col-sm-5">------ Meme คำบอลโดนๆ สนุกกับฟุตบอลอย่างสร้างสรรค์</div>
-        <div class="col-sm-3"><i>[space]</i></div>
+        <div class="col-sm-3"></div>
         <div class="col-sm-1">ติดตามข่าวสารฟุตบอล ผลบอล TPL, BPL ได้ที่ www.facebook.com/balltoro/ </div>
     </div>
 </div>
 
 <div>
     <div class="container myContainer">
-        <div class="col-sm-6">
-            <legend><b> Balltoro Meme Maker </b></legend>
-            <button class="btn btn-primary btn-small"> Like</button> 3523959 like this site
+        <div class="container header">
+            <legend><b>Balltoro Meme Maker </b></legend>
+            <button class="btn btn-primary btn-small"> Like</button> 3523959 like this site <!--<span class="glyphicon glyphicon-search"></span> -->
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <canvas id="canvas">เบราเซอร์ของคุณไม่สนับสนุน Canvas</canvas>
+            </div>
+
+            <div class="col-sm-6 toolbox" id="blink">
+
+            <!-- TABLE SPLIT -->
+
+            <table class="rightPanel">
+                <tr>
+                    <th colspan="4">Caption tool</th>
+                </tr>
+                <tr>
+                    <th colspan="4">&nbsp;</th>
+                </tr>
+                <tr>
+                    <td>Style:</td>
+                    <td colspan="2"><select class="form-control ng-pristine ng-valid ng-touched" ng-model="font_face" ng-init="font_face = fontList[0]" ng-change="applyChange()" ng-options="fnt.name for fnt in fontList"></select></td>
+                    <td></td>
+                </tr>
+                <tr>
+                <td>Size:</td>
+                    <td><select class="form-control ng-pristine ng-valid ng-touched" ng-model="memeArray[selectedMemeText].size" ng-options="N for N in numRange(10, 120, 5)" ng-init="memeArray[0].size = 60" ng-change="applyChange()" ></select></td>
+                    <td colspan="2"><ul class="picker"><li class="colorPicker" ng-repeat="color in colors" ng-class="{selected: (color==memeArray[selectedMemeText].color)}" ng-click="pickFontColor(0, color)" ng-style="{'background-color':color};"></li></ul></td>
+                </tr>
+                <tr>
+                    <td>Text:</td>
+                    <td colspan="3"><textarea rows="4" cols="50" class="form-control ng-pristine ng-valid ng-touched" ng-model='memeArray[selectedMemeText].memeText' ng-change="applyChange()"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Shadow:</td>
+                    <td><ul class="picker"><li class="colorPicker" ng-repeat="color in shadows" ng-class="{selected: (color==memeArray[selectedMemeText].shadowColor)}" ng-click="pickShadowColor(selectedMemeText, color)" ng-style="{'background-color':color};"></li></ul></td>
+                    <td>Border Size:</td>
+                    <td><select class="form-control ng-pristine ng-valid ng-touched" ng-model="memeArray[selectedMemeText].border" ng-options="N for N in numRange(0, 20, 2)" ng-init="memeArray[selectedMemeText].border = 8" ng-change="applyChange()" ></select></td>
+                </tr>
+                <tr>
+                    <td>Align:</td>
+                    <td colspan="3"><button class="btn" ng-click="txtAlign(selectedMemeText, 'left')">Left</button>
+                        <button class="btn" ng-click="txtAlign(selectedMemeText, 'center')">Center</button>
+                        <button class="btn" ng-click="txtAlign(selectedMemeText, 'right')">Right</button></td>
+                </tr>
+            </table>
             <br/>
-            <canvas id="canvas"></canvas>
-        </div>
-
-
-        <div class="col-sm-6" style="text-align:center;">
-            <fieldset>
-                <legend>ตั้งค่า</legend>
-                กว้าง:
-                <input width="75px" type="number"  style="height: 30px"  ng-model='imgWidth' ng-change="applyChange()" placeholder="100" value="100"/>px
-                <br/>
-                font :
-                <select ng-model="font_face" ng-init="font_face = fontList[0]" ng-change="applyChange()" ng-options="fnt.name for fnt in fontList"></select>
-                <br/>{{ '{{font_face.name}}' }}
-
-                <legend>ข้อความ 1</legend>
-                Top align<br/>
-                <button class="btn" ng-click="txtAlign(0, 'left')">Left</button>
-                <button class="btn" ng-click="txtAlign(0, 'center')">Center</button>
-                <button class="btn" ng-click="txtAlign(0, 'right')">Right</button>
-                <br/>
-
-                <div class="col-xs-5">
-                    <label for="ex1">font size</label>
-                    <input id="ex1" class="form-control" style="height: 30px" type="number" ng-model='memeArray[0].size' ng-change="applyChange()" placeholder="100" value="100"/>
-                </div>
-                <div>
-                    <ul class="picker">
-                        <li class="colorPicker" ng-repeat="color in colors" ng-class="{selected: (color==memeArray[0].color)}" ng-click="pickFontColor(0, color)" ng-style="{'background-color':color};"></li>
-                    </ul>
-                </div>
-
-                shadow:
-                <ul class="picker">
-                    <li class="colorPicker" ng-repeat="color in shadows" ng-class="{selected: (color==memeArray[0].shadowColor)}" ng-click="pickShadowColor(0, color)" ng-style="{'background-color':color};">
-                    </li>
-                </ul>
-
-                <textarea rows="4" cols="50" ng-model='memeArray[0].memeText' ng-change="applyChange()"></textarea>
-                <hr/>
-
-                <br/>
-                <legend>ข้อความ 2</legend>
-
-                Bottom align<br/>
-                <button class="btn" ng-click="txtAlign(1, 'left')">Left</button>
-                <button class="btn" ng-click="txtAlign(1, 'center')">Center</button>
-                <button class="btn" ng-click="txtAlign(1, 'right')">Right</button>
-
-                <br/>
-                <div class="col-xs-5">
-                    <label for="ex1">font size</label>
-                    <input id="ex1" class="form-control" style="height: 30px" type="number" ng-model='memeArray[1].size' ng-change="applyChange()" placeholder="100" value="100"/>
-                </div>
-
-                <textarea rows="4" cols="50" ng-model='memeArray[1].memeText' ng-change="applyChange()"></textarea>
-                <br/>
-                <div>
-                    <ul class="picker">
-                        <li class="colorPicker" ng-repeat="color in colors" ng-class="{selected: (color==memeArray[1].color)}" ng-click="pickFontColor(1, color)" ng-style="{'background-color':color};"></li>
-                    </ul>
-                </div>
-                shadow:
-                <ul class="picker">
-                    <li class="colorPicker" ng-repeat="color in shadows" ng-class="{selected: (color==memeArray[1].shadowColor)}" ng-click="pickShadowColor(1, color)" ng-style="{'background-color':color};"></li>
-                </ul>
-                <br/>
-                <button class="btn btn-large" ng-click="repeatSwear(true)">CheckSwears</button>
-                <button class="btn btn-large" ng-click="repeatSwear(false)">remove CheckSwears</button>
-
-            </fieldset>
-        </div>
-
-
+        <!--
+            <button class="btn btn-large" ng-click="repeatSwear(true)">CheckSwears</button>
+            <button class="btn btn-large" ng-click="repeatSwear(false)">remove CheckSwears</button>
+        -->
+        </div><!--sm6-->
     </div>
 
-    <div class="container myContainer">
+<!-- Meme List -->
+
+    <div class="container memeList">
         <button class="btn btn-large" ng-click="reset()">Reset</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button class="btn btn-large btn-primary" ng-click="create()">Save Image</button>
 
@@ -119,11 +97,10 @@
         <div class="preview-wrap">
             <img ng-src="{{ '{{pic.path}}' }}" ng-repeat="pic in memeList" ng-click="applyImage(pic.path)" class="meme"></img>
         </div>
-
     </div>
 </div>
 
-<footer class="footer"> by <a href="http://balltoro.com">Balltoro.com</a> </footer>
+<footer class="footer"> by <a href="http://balltoro.com" target="_blank">Balltoro.com</a> </footer>
 
 
 {% endblock %}
@@ -136,6 +113,7 @@
 {% block javascripts %}
     <script src="{{ asset('bundles/app/js/jquery-1.9.1.min.js') }}"></script>
     <script src="{{ asset('bundles/app/js/angular.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/ui-bootstrap-tpls-0.13.4.min.js') }}"></script>
     <script src="{{ asset('bundles/app/js/app.js') }}"></script>
     <script src="{{ asset('bundles/app/js/json_decode.js') }}"></script>
 
