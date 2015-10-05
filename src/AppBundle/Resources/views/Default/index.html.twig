@@ -59,7 +59,7 @@
                 <tr>
                 <td>Size:</td>
                     <td><select class="form-control ng-pristine ng-valid ng-touched" ng-model="memeArray[selectedMemeText].size" ng-options="N for N in numRange(10, 120, 5)" ng-init="memeArray[0].size = 60" ng-change="applyChange()" ></select></td>
-                    <td colspan="2"><ul class="picker"><li class="colorPicker" ng-repeat="color in colors" ng-class="{selected: (color==memeArray[selectedMemeText].color)}" ng-click="pickFontColor(0, color)" ng-style="{'background-color':color};"></li></ul></td>
+                    <td colspan="2"><ul class="picker"><li class="colorPicker" ng-repeat="color in colors" ng-class="{selected: (color==memeArray[selectedMemeText].color)}" ng-click="pickFontColor(selectedMemeText, color)" ng-style="{'background-color':color};"></li></ul></td>
                 </tr>
                 <tr>
                     <td>Text:</td>
