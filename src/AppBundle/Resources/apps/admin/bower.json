@@ -1,11 +1,11 @@
 {
-  "name": "balltoro-haha",
+  "name": "balltoro-haha-admin",
   "version": "0.0.0",
   "homepage": "https://github.com/intbizth/balltoro-haha",
   "authors": [
     "ツ Liverbool <nukboon@gmail.com>"
   ],
-  "description": "Balltoro HaHa",
+  "description": "Balltoro HaHa Admin",
   "moduleType": [
     "amd"
   ],
@@ -21,14 +21,11 @@
     "tests"
   ],
   "dependencies": {
-    "FileSaver.js": "https://github.com/eligrey/FileSaver.js.git",
-    "angular": "angularjs#~1.4.5",
-    "canvas-toBlob.js": "https://github.com/eligrey/canvas-toBlob.js.git",
     "font-awesome": "~4.4.0",
-    "jQuery.ProfanityFilter": "*",
-    "jquery": "~2.1.4",
     "nprogress": "~0.2.0",
-    "Semantic-UI-Angular": "git@github.com:Semantic-Org/Semantic-UI-Angular.git",
-    "semantic": "semantic-ui#~2.1.4"
+    "angular-material": "~0.11.1",
+    "requirejs": "~2.1.20",
+    "jquery": "~2.1.4",
+    "angular-ui-router": "~0.2.15"
   }
 }

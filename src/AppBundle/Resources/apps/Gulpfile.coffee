@@ -5,6 +5,7 @@ rjs = require 'gulp-requirejs-optimize'
 gutil = require 'gulp-util'
 concat = require 'gulp-concat'
 autoprefixer = require 'gulp-autoprefixer'
+shell = require('gulp-shell')
 
 $ = require('gulp-load-plugins')({
     lazy: no

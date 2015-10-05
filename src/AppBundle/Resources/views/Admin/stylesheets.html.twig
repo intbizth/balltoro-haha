@@ -1,0 +1,6 @@
+{% if app.environment == 'prod' %}
+    <link rel="stylesheet" href="{{ asset('bundles/app/admin/css/style.min.css') }}">
+{% else %}
+    <link rel="stylesheet" href="{{ asset('bundles/app/admin/css/vendor.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/admin/css/main.css') }}">
+{% endif %}
