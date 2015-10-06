@@ -1,0 +1,11 @@
+{% if app.environment == 'prod' %}
+    <script type="application/javascript" src="{{ asset('bundles/app/front/js/app.min.js') }}"></script>
+    <script type="text/javascript">require(['toro/app'], function () {
+            angular.bootstrap(document, ['ToroHahaFront']);
+        });</script>
+{% else %}
+    <script type="text/javascript"
+            src="{{ asset('bundles/app/front/bower_components/requirejs/require.js') }}"
+            data-main="{{ asset('bundles/app/front/js/config.js') }}"
+            ></script>
+{% endif %}

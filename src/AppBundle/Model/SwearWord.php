@@ -3,7 +3,6 @@
 namespace AppBundle\Model;
 
 use Gedmo\Timestampable\Traits\Timestampable;
-use JMS\Serializer\Annotation as JMS;
 
 class SwearWord implements SwearWordInterface
 {
@@ -16,13 +15,11 @@ class SwearWord implements SwearWordInterface
 
     /**
      * @var string
-     * @JMS\Expose()
      */
     private $swear;
 
     /**
      * @var string
-     * @JMS\Expose()
      */
     private $replacement;
 

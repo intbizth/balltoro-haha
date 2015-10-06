@@ -15,8 +15,24 @@ app_admin:
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
 
-_liip_image:
-    path: /media/cache/resolve/{filter}/rc/{hash}/{x}/{y}/{path}
+photo_list:
+    path: /photos
     methods: [GET]
     defaults:
-        _controller: %liip_imagine.controller.filter_runtime_action%
+        _controller: app.controller.photo:indexAction
+        _format: json
+        _sylius:
+            filterable: true
+            sortable: true
+
+photo_url:
+    path: /photos/{path}
+    methods: [GET]
+    defaults:
+        _controller: app.controller.photo:pictureUrlAction
+
+photo_sizing_url:
+    path: /photos/{path}/{sizing}
+    methods: [GET]
+    defaults:
+        _controller: app.controller.photo:pictureUrlAction

@@ -1,0 +1,11 @@
+{% spaceless %}
+    {% block init %}{% endblock %}
+    {% set i_html = (ui_page_get('locale', ' lang="%s"')~ui_page_get('id', ' id="%s"')~ui_page_get('css', ' class="%s"')) %}
+    {% set i_blocks = ui_page_get('blocks')|default({}) %}
+    {% set i_actions = i_blocks.actions|default() %}
+    {% set i_form = i_blocks.form|default() %}
+    {% set i_breadcrumbs = ui_page_get('breadcrumbs')|default() %}
+    {% set i_heading = ui_page_get('heading')|default() %}
+    {% set i_heading_icon = ui_page_get('icon')|default() %}
+    {% block html %}{% endblock %}
+{% endspaceless %}

@@ -121,3 +121,10 @@ liip_imagine:
         cache: ~
         filter:
             quality: 100
+
+jms_serializer:
+    metadata:
+        directories:
+            Hateoas:
+                namespace_prefix: "Hateoas\\Representation"
+                path: "@AppBundle/Serializer/Hateoas"

@@ -1,0 +1,18 @@
+<ol class="breadcrumb">
+    {% for bc in breadcrumbs %}
+        {% set label = bc.labcl|default(bc[0]) %}
+        {% set url = bc.url|default(bc[1]|default(null)) %}
+
+        {% if loop.last %}
+            <li class="active"><strong>{{ label|trans }}</strong></li>
+        {% else %}
+            <li>
+                {% if url %}
+                    <a href="{{ url }}">{{ label|trans }}</a>
+                {% else %}
+                    {{ label|trans }}
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+</ol>

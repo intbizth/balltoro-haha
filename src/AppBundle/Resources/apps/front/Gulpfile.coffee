@@ -38,8 +38,8 @@ paths =
     ]
 
     copy: [
-        ['./bower_components/font-awesome/fonts/*', publicPath('admin/fonts')]
-        ['./bower_components/lightbox2/dist/images/*', publicPath('admin/images')]
+        ['./bower_components/font-awesome/fonts/*', publicPath('front/fonts')]
+        ['./bower_components/lightbox2/dist/images/*', publicPath('front/images')]
     ]
 
 gulp.task 'coffee', ->
@@ -86,16 +86,16 @@ gulp.task 'copy', ->
             .pipe(gulp.dest(file[1]))
 
 gulp.task 'clean', shell.task [
-    'rm -rf ' + publicPath('admin')
-    'rm -rf ' + basePath('../admin/images')
-    'rm -rf ' + basePath('../admin/fonts')
-    'rm -rf ' + basePath('../admin/css')
-    'rm -rf ' + basePath('../admin/js')
+    'rm -rf ' + publicPath('front')
+    'rm -rf ' + basePath('../front/images')
+    'rm -rf ' + basePath('../front/fonts')
+    'rm -rf ' + basePath('../front/css')
+    'rm -rf ' + basePath('../front/js')
 ]
 
 gulp.task 'public', shell.task [
     'mkdir -p ' + publicPath()
-    'ln -sf ' + basePath('../admin') + ' ' + publicPath('admin')
+    'ln -sf ' + basePath('../front') + ' ' + publicPath('front')
 ]
 
 gulp.task 'watch', ->

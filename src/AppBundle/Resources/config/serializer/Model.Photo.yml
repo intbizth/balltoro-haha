@@ -1,0 +1,35 @@
+AppBundle\Model\Photo:
+    exclusion_policy: ALL
+    xml_root_name: photo
+
+    properties:
+        id:
+            expose: true
+            type: integer
+
+        title:
+            expose: true
+            type: string
+
+        category:
+            expose: true
+
+    relations:
+        - rel: photo_url
+          #exclusion:
+          #    exclude_if: expr(!object.getPath())
+          href:
+              route: photo_url
+              absolute: true
+              parameters:
+                  path: expr(object.getPath())
+
+        - rel: photo_sizing_url
+          #exclusion:
+          #    exclude_if: expr(!object.getPath())
+          href:
+              route: photo_sizing_url
+              absolute: true
+              parameters:
+                  path: expr(object.getPath())
+                  sizing: 100x100
