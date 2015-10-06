@@ -38,4 +38,6 @@ interface PhotoInterface extends ImageInterface, Timestampable
      * @param Category $category
      */
     public function setCategory(Category $category = null);
+
+    public function getSelfPath();
 }

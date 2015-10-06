@@ -16,20 +16,20 @@ AppBundle\Model\Photo:
 
     relations:
         - rel: photo_url
-          #exclusion:
-          #    exclude_if: expr(!object.getPath())
+          exclusion:
+              exclude_if: expr(!object.getPath())
           href:
               route: photo_url
               absolute: true
               parameters:
-                  path: expr(object.getPath())
+                  path: expr(object.getSelfPath())
 
         - rel: photo_sizing_url
-          #exclusion:
-          #    exclude_if: expr(!object.getPath())
+          exclusion:
+              exclude_if: expr(!object.getPath())
           href:
               route: photo_sizing_url
               absolute: true
               parameters:
-                  path: expr(object.getPath())
+                  path: expr(object.getSelfPath())
                   sizing: 100x100
