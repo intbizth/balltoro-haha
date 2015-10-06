@@ -20,3 +20,5 @@ src/AppBundle/Resources/apps/**/fonts
 src/AppBundle/Resources/apps/**/images
 
 web/media
+
+composer.lock
