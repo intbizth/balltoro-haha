@@ -9,6 +9,7 @@ class PhotoController extends ResourceController
 {
     public function pictureUrlAction($path, $sizing = null)
     {
+        $path = preg_replace('/\-/', '/', $path);
         $cacheManager = $this->container->get('liip_imagine.cache.manager');
         $config = array();
 
