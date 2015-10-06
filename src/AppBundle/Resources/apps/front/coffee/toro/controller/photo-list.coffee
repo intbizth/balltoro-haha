@@ -34,7 +34,7 @@ define ['toro/ng'], (ToroNg) ->
 
                 promise = $http
                     method: 'GET'
-                    url: 'http://127.0.0.1:8000/photos?page=' + (@page + 1)
+                    url: '/photos?page=' + (@page + 1)
 
                 promise.finally => @busy = no
 
