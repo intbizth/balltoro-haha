@@ -128,3 +128,7 @@ jms_serializer:
             Hateoas:
                 namespace_prefix: "Hateoas\\Representation"
                 path: "@AppBundle/Serializer/Hateoas"
+
+dos_resource:
+    settings:
+        default_page_size: 20

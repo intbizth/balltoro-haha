@@ -1,14 +1,10 @@
 <div ng-controller="PhotoListController">
-    <div infinite-scroll="photos.nextPage()" infinite-scroll-disabled="photos.busy" infinite-scroll-distance='1'>
-        {#<div ng-repeat='item in photos.items'>
-          <span class='title'>
-            <a ng-href="{{ '{{ item.url }}' }}" target='_blank'></a>
-          </span>
-            <small>by {{ item.author }} -
-                <a></a>
-            </small>
-            <div style='clear: both;'></div>
-        </div>#}
-        <div ng-show="photos.busy">Loading data...</div>
-    </div>
+    <ul class="photo-list row" when-scrolled="photos.nextPage()">
+        <li class="col-xs-6 col-md-3" ng-repeat='item in photos.items' ng-click="selectPicture(item)" ng-class="{selected: item.id == selectedItem}">
+            <img class="thumbnail"
+                ng-src="{{ '{{ item._links.photo_sizing_url.href }}' }}"
+                title="{{ '{{ item.title }}' }}">
+        </li>
+        <li class="loading" ng-show="photos.busy">Loading data...</li>
+    </ul>
 </div>

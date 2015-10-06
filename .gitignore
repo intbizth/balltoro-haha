@@ -18,5 +18,6 @@ src/AppBundle/Resources/apps/**/css
 src/AppBundle/Resources/apps/**/js
 src/AppBundle/Resources/apps/**/fonts
 src/AppBundle/Resources/apps/**/images
+!src/AppBundle/Resources/apps/**/asset/images
 
 web/media
