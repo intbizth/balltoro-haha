@@ -1,8 +1,6 @@
 {% extends 'AppBundle:Front:layout.html.twig' %}
 
 {% block content %}
-    <div ng-controller="PhotoListController">
-        {{ '{{ xxx }}' }}
-    </div>
+    {{ include('AppBundle:Front:_photo-list.html.twig') }}
 {% endblock %}
 
