@@ -1,0 +1,13 @@
+{% form_theme form 'AppBundle:Admin:forms.html.twig' %}
+{% from 'AppBundle:Admin/macros:buttons.html.twig' import formSubmit %}
+
+{{ form_errors(form) }}
+
+<div class="ui form">
+    {{ form_row(form.category) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.file) }}
+
+    {{ form_widget(form._token) }}
+    {{ formSubmit(photo) }}
+</div>

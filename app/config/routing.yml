@@ -1,10 +1,22 @@
+logout:
+    path: /logout
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: AppBundle:Admin:logout.html.twig
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 
 app_admin:
-    resource: "@AppBundle/Controller/Admin/"
-    type:     annotation
+    resource: "@AppBundle/Resources/config/routing/admin.yml"
+    prefix: /admin
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+_liip_image:
+    path: /media/cache/resolve/{filter}/rc/{hash}/{x}/{y}/{path}
+    methods: [GET]
+    defaults:
+        _controller: %liip_imagine.controller.filter_runtime_action%

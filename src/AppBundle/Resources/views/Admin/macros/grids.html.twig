@@ -1,0 +1,80 @@
+{%- block attributes -%}
+    {%- if attr.readonly|default(null) %} readonly="readonly"{% endif -%}
+    {%- if attr.disabled|default(null) %} disabled="disabled"{% endif -%}
+    {%- if attr.required|default(null) %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is sameas(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not sameas(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock attributes -%}
+
+{%- macro start(ui='', attr = {}) %}
+    <div class="row {{ ui }}" {{- block('attributes') -}}>
+{% endmacro -%}
+
+{% macro end() %}
+    </div>
+{% endmacro %}
+
+{%- macro col(col, content, ui = '') %}
+    {% if content|is_array %}
+        {% set content = content|join %}
+    {% endif %}
+    <div class="col-md-{{ col }} {{ ui }}">
+        {{ content|raw }}
+    </div>
+{% endmacro -%}
+
+{% macro col_start(col, ui='', attr = {}) %}
+    <div class="col-md-{{ col }} {{ ui }}" {{- block('attributes') -}}>
+{% endmacro %}
+
+{% macro col_end() %}
+    </div>
+{% endmacro %}
+
+{% macro grid(content) %}
+    {% if content|is_array %}
+        {% set content = content|join %}
+    {% endif %}
+
+    {{ _self.start() }}
+        {{ content|raw }}
+    {{ _self.end() }}
+{% endmacro %}
+
+{% macro ibox(title, content, hintTitle = '') %}
+    <div class="ibox">
+        <div class="title">{{ title }}
+            {% if hintTitle %}
+                <small>{{ hintTitle }}</small>
+            {% endif %}
+        </div>
+        <div class="content">{{ content }}</div>
+    </div>
+{% endmacro %}
+
+{#
+How to?
+
+{{ start() }}
+    {{ col(1, '<tag></tag>') }}
+    {{ col(7, '<tag></tag>') }}
+
+    {{ col_start() }}
+    <tag></tag>
+    {{ col_end() }}
+
+{{  end() }}
+
+{{ grid(
+    col(1, 'xx') ~
+    col(7, 'xx')
+) }}
+#}

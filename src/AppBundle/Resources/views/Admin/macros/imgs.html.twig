@@ -1,0 +1,27 @@
+{% macro img(subject, sizing, lightbox = true, ui = '') %}
+    {% if lightbox %}
+        <a href="{{ ui_image_url(subject) }}" data-lightbox="lightbox" class="lightbox-image">
+            <img src="{{ ui_image_url(subject, sizing)|raw }}" class="{{ ui }}">
+        </a>
+    {% else %}
+        <img src="{{ ui_image_url(subject, sizing)|raw }}" class="{{ ui }}">
+    {% endif %}
+{% endmacro %}
+
+{% macro lazy(subject, sizing, lightbox=true, ui = 'lazy') %}
+    {% if lightbox %}
+        <a href="{{ ui_image_url(subject) }}" data-lightbox="lightbox" class="lightbox-image">
+            <img src="" data-original="{{ ui_image_url(subject, sizing)|raw }}" class="{{ ui }}">
+        </a>
+    {% else %}
+        <img src="" data-original="{{ ui_image_url(subject, sizing)|raw }}" class="{{ ui }}">
+    {% endif %}
+{% endmacro %}
+
+{% macro img_responsive(subject, sizing, lightbox=true, ui = 'img-responsive') %}
+    {{ _self.img(subject, sizing, lightbox, ui) }}
+{% endmacro %}
+
+{% macro lazy_responsive(subject, sizing, lightbox=true, ui = 'lazy img-responsive') %}
+    {{ _self.lazy(subject, sizing, lightbox, ui) }}
+{% endmacro %}

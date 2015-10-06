@@ -18,7 +18,9 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 
-    photo_form_type:
-        class: AppBundle\Form\PhotoType
+    ui_twig_extension:
+        class: AppBundle\Twig\UiExtension
+        arguments:
+            - @liip_imagine.cache.manager
         tags:
-            - { name: form.type, alias: photo }
+            - { name: twig.extension }

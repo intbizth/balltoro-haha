@@ -32,12 +32,14 @@ paths =
     ]
 
     css: [
-        './bower_components/angular-material/angular-material.css'
         './bower_components/font-awesome/css/font-awesome.css'
+        './bower_components/bootstrap/dist/css/bootstrap.css'
+        './bower_components/lightbox2/dist/css/lightbox.css'
     ]
 
     copy: [
         ['./bower_components/font-awesome/fonts/*', publicPath('admin/fonts')]
+        ['./bower_components/lightbox2/dist/images/*', publicPath('admin/images')]
     ]
 
 gulp.task 'coffee', ->

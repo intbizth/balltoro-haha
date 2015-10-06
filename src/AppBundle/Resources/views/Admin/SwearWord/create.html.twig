@@ -1,0 +1,18 @@
+{% extends 'AppBundle:Admin:layout.html.twig' %}
+
+{% block init %}
+    {{ ui_page_options({
+        heading: "SwearWord",
+        blocks: {
+            content: {
+                file: 'AppBundle:Admin/SwearWord:_form.html.twig',
+                params: {swear_word: swear_word}
+            },
+            form: {
+                context: form,
+                start: {'action': path('route_swear_word_create')},
+                end: {render_rest: false}
+            }
+        }
+    }) }}
+{% endblock %}

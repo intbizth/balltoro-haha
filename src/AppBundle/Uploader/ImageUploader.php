@@ -2,7 +2,7 @@
 
 namespace AppBundle\Uploader;
 
-use AppBundle\Entity\ImageInterface;
+use AppBundle\Model\ImageInterface;
 use Gaufrette\Filesystem;
 
 class ImageUploader
@@ -29,8 +29,12 @@ class ImageUploader
         }
 
         do {
+            if (!$ext = $image->getFile()->getExtension()) {
+                list($m, $ext) = explode('/', $image->getFile()->getClientMimeType());
+            }
+
             $hash = md5(uniqid(mt_rand(), true));
-            $path = $this->expandPath($hash.'.'.$image->getFile()->getExtension());
+            $path = $this->expandPath($hash.'.'.$ext);
         } while ($this->filesystem->has($path));
 
         $image->setPath($path);

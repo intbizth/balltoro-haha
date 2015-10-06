@@ -1,0 +1,46 @@
+{% extends 'AppBundle:Admin:layout.html.twig' %}
+
+{% block content %}
+    {% import 'AppBundle:Admin/macros:buttons.html.twig' as btn %}
+    {% import 'AppBundle:Admin/SwearWord:macros.html.twig' as fn %}
+    {% from 'AppBundle:Admin/macros:paginator.html.twig' import paginator %}
+
+    <div class="row">
+        <div class="col-lg-12 animated fadeInRight">
+            <div class="mail-box-header">
+                <h2>SwearWord</h2>
+                {{ fn.tools(swear_words) }}
+            </div>
+            <div class="mail-box">
+                {% if swear_words|length %}
+                    <table class="table table-hover table-mail">
+                        <thead>
+                        <tr>
+                            <th class="text-left">{{ ui_sort('swear', 'Swear') }}</th>
+                            <th class="text-left">{{ ui_sort('replacement', 'Replacement') }}</th>
+                            <th class="action">{{ 'Actions' }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for r in swear_words %}
+                            <tr>
+                                <td class="text-left">{{ r.swear }}</td>
+                                <td class="text-left">{{ r.replacement }}</td>
+                                <td class="action">
+                                    {{ btn.actions(r, [
+                                    btn.edit(ui_route(r, 'route_swear_word_update')),
+                                    btn.delete(ui_route(r, 'route_swear_word_delete'))
+                                    ]) }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="no-result">No result.</div>
+                {% endif %}
+                {{ paginator(swear_words) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

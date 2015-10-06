@@ -2,7 +2,6 @@ define ['angular'], (angular) ->
     angular.element('body').attr 'ng-controller', 'MainController'
     ToroHahaAdmin = angular.module('ToroHahaAdmin', [
         'ui.router'
-        'ngMaterial'
     ])
 
     ToroHahaAdmin.run ['$rootScope', ($rootScope) ->

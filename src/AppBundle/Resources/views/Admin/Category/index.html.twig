@@ -1,0 +1,44 @@
+{% extends 'AppBundle:Admin:layout.html.twig' %}
+
+{% block content %}
+    {% import 'AppBundle:Admin/macros:buttons.html.twig' as btn %}
+    {% import 'AppBundle:Admin/Category:macros.html.twig' as fn %}
+    {% from 'AppBundle:Admin/macros:paginator.html.twig' import paginator %}
+
+    <div class="row">
+        <div class="col-lg-12 animated fadeInRight">
+            <div class="mail-box-header">
+                <h2>Category</h2>
+                {{ fn.tools(categories) }}
+            </div>
+            <div class="mail-box">
+                {% if categories|length %}
+                    <table class="table table-hover table-mail">
+                        <thead>
+                        <tr>
+                            <th class="text-left">{{ ui_sort('name', 'Name') }}</th>
+                            <th class="action">{{ 'Actions' }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for r in categories %}
+                            <tr>
+                                <td class="text-left">{{ r.name }}</td>
+                                <td class="action">
+                                    {{ btn.actions(r, [
+                                    btn.edit(ui_route(r, 'route_category_update')),
+                                    btn.delete(ui_route(r, 'route_category_delete'))
+                                    ]) }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="no-result">No result.</div>
+                {% endif %}
+                {{ paginator(categories) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

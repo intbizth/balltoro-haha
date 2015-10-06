@@ -1,0 +1,11 @@
+AppBundle\Model\Photo:
+    properties:
+        title:
+            - NotBlank: ~
+
+        file:
+            - NotBlank: ~
+
+            - Image:
+                allowLandscape: true
+                allowPortrait: true

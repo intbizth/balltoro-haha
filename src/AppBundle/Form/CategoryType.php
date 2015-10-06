@@ -15,18 +15,10 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', 'text', array(
+                'required' => true,
+            ))
         ;
-    }
-    
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Category'
-        ));
     }
 
     /**
@@ -34,6 +26,6 @@ class CategoryType extends AbstractType
      */
     public function getName()
     {
-        return 'category_type';
+        return 'app_category';
     }
 }

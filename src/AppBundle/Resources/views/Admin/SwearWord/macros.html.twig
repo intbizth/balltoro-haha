@@ -1,0 +1,22 @@
+{%- macro tools(rs) %}
+    {% from 'AppBundle:Admin/macros:icons.html.twig' import icon %}
+    {% from 'AppBundle:Admin/macros:paginator.html.twig' import control, page_url %}
+    {% import 'AppBundle:Admin/macros:buttons.html.twig' as btn %}
+
+    <div class="mail-tools m-t-md">
+        {{ control(rs) }}
+
+        {{ btn.groups([
+            btn.action({
+                url: page_url(rs),
+                text: 'Refresh',
+                icon: icon('refresh')
+            }),
+            btn.action({
+                url: path('route_swear_word_create'),
+                text: 'Add',
+                icon: icon('plus')
+            })
+        ]) }}
+    </div>
+{% endmacro -%}

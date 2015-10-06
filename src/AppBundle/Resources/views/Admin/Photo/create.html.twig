@@ -1,45 +1,18 @@
 {% extends 'AppBundle:Admin:layout.html.twig' %}
 
-{% block body %}
-    <div ng-controller="AdminPhotoCreateController">
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
-
-        <md-autocomplete
-                md-no-cache="true"
-                md-selected-item="selectedItem"
-                md-search-text-change="searchTextChange(searchText)"
-                md-search-text="searchText"
-                md-selected-item-change="selectedItemChange(item)"
-                md-items="item in querySearch(searchText)"
-                md-item-text="item.name"
-                md-min-length="0"
-                placeholder="What is your favorite US state?">
-            <md-item-template>
-                <span md-highlight-text="searchText" md-highlight-flags="^i">{{ '{{ item.display }}' }}</span>
-            </md-item-template>
-            <md-not-found>
-                No matches found for "{{ '{{ searchText }}' }}".
-            </md-not-found>
-        </md-autocomplete>
-
-        {{ form_widget(form.category, {attr: {'ng-model': 'category'}}) }}
-
-        <md-input-container flex>
-            <label>Title</label>
-            {{ form_widget(form.title) }}
-        </md-input-container>
-
-        <md-input-container flex>
-            {{ form_widget(form.file) }}
-        </md-input-container>
-
-        {{ form_end(form) }}
-    </div>
-
-    <script type="text/ng-template" id="templates/admin-toolbar-right.html">
-        {#<md-button class="md-raised" href="">
-            <i class="fa fa-save"></i> Save
-        </md-button>#}
-    </script>
-{% endblock body %}
+{% block init %}
+    {{ ui_page_options({
+        heading: "Photo",
+        blocks: {
+            content: {
+                file: 'AppBundle:Admin/Photo:_form.html.twig',
+                params: {photo: photo}
+            },
+            form: {
+                context: form,
+                start: {'action': path('route_photo_create')},
+                end: {render_rest: false}
+            }
+        }
+    }) }}
+{% endblock %}
