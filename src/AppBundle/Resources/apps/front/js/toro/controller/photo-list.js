@@ -39,7 +39,7 @@ define(['toro/ng'], function(ToroNg) {
         this.busy = true;
         promise = $http({
           method: 'GET',
-          url: 'http://127.0.0.1:8000/photos?page=' + (this.page + 1)
+          url: '/photos?page=' + (this.page + 1)
         });
         promise["finally"]((function(_this) {
           return function() {
