@@ -1,0 +1,9 @@
+{% macro state(object, caret = false, ui = 'dotted') %}
+    <span class="ui horizontal label {{ ui }} label-{{ ts_color(object) }}">
+        {{ ts_state(object)|trans }} {% if caret %}<i class="fa fa-caret-down"></i>{% endif %}
+    </span>
+{% endmacro %}
+
+{% macro dot_tooltip(text, color) %}
+    <i class="fa fa-circle text-{{ color }}" data-toggle="tooltip" title="{{ text }}"></i>
+{% endmacro %}

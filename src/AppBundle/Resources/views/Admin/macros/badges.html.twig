@@ -1,0 +1,11 @@
+{% macro label(message, ui = '') %}
+    <span class="badge {{ ui }}">{{ message }}</span>
+{% endmacro %}
+
+{% macro onoff(value, on_text = null, off_text = null) %}
+    {% if value %}
+        <span class="badge label-primary">{{ on_text|default('ui.trans.on'|trans) }}</span>
+    {% else %}
+        <span class="badge label-danger">{{ off_text|default('ui.trans.off'|trans) }}</span>
+    {% endif %}
+{% endmacro %}

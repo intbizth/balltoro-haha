@@ -1,3 +1,38 @@
+logout:
+    path: /logout
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: AppBundle:Admin:logout.html.twig
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+app_admin:
+    resource: "@AppBundle/Resources/config/routing/admin.yml"
+    prefix: /admin
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+photo_list:
+    path: /photos
+    methods: [GET]
+    defaults:
+        _controller: app.controller.photo:indexAction
+        _format: json
+        _sylius:
+            filterable: true
+            sortable: true
+
+photo_url:
+    path: /photos/{path}
+    methods: [GET]
+    defaults:
+        _controller: app.controller.photo:pictureUrlAction
+
+photo_sizing_url:
+    path: /photos/{path}/{sizing}
+    methods: [GET]
+    defaults:
+        _controller: app.controller.photo:pictureUrlAction

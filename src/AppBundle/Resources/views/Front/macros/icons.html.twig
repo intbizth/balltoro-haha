@@ -1,0 +1,6 @@
+{% macro icon(name, size = 1, color = null) %}
+    {% spaceless %}
+        {# https://fortawesome.github.io/Font-Awesome/icons/ #}
+        <i class="fa fa-{{ name }} fa-{{ size }} text-{{ color }}"></i> {{ is_string(size) ? size : '' }}
+    {% endspaceless %}
+{% endmacro %}

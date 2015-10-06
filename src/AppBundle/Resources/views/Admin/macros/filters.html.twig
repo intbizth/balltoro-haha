@@ -1,0 +1,16 @@
+{% macro search(page) %}
+    {% set queryParams = app.request.query.all|merge({page: null}) %}
+    {% if 'criteria' in queryParams|keys %}
+        {% set queryParams = queryParams|merge({criteria: {search: null}}) %}
+    {% endif %}
+
+    <form method="get" action="{{ pagerfanta_page_url(page, 0, queryParams) }}" class="pull-right mail-search">
+        <div class="input-group">
+            <input type="text" class="form-control input-sm" name="search" placeholder="Search" value="{{ queryParams.search|default() }}">
+
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn-sm btn-primary">{{ 'ui.t.search'|trans }}</button>
+            </div>
+        </div>
+    </form>
+{% endmacro %}

@@ -1,0 +1,49 @@
+route_swear_word_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: app.controller.swear_word:indexAction
+        _sylius:
+            template: AppBundle:Admin/SwearWord:index.html.twig
+            filterable: true
+            sortable: true
+
+route_swear_word_create:
+    path: /create
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.swear_word:createAction
+        _sylius:
+            template: AppBundle:Admin/SwearWord:create.html.twig
+            redirect: route_swear_word_index
+
+route_swear_word_update:
+    path: /{id}/update
+    methods: [GET, PATCH, PUT]
+    requirements:
+        id: \d+
+    defaults:
+        _controller: app.controller.swear_word:updateAction
+        _sylius:
+            template: AppBundle:Admin/SwearWord:update.html.twig
+            redirect: route_swear_word_index
+
+route_swear_word_delete:
+    path: /{id}/delete
+    methods: [DELETE]
+    requirements:
+        id: \d+
+    defaults:
+        _controller: app.controller.swear_word:deleteAction
+        _sylius:
+            redirect: route_swear_word_index
+
+route_swear_word_show:
+    path: /{id}/show
+    methods: [GET]
+    requirements:
+        id: \d+
+    defaults:
+        _controller: app.controller.swear_word:showAction
+        _sylius:
+            template: AppBundle:Admin/SwearWord:show.html.twig

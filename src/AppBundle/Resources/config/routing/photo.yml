@@ -1,0 +1,49 @@
+route_photo_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: app.controller.photo:indexAction
+        _sylius:
+            template: AppBundle:Admin/Photo:index.html.twig
+            filterable: true
+            sortable: true
+
+route_photo_create:
+    path: /create
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.photo:createAction
+        _sylius:
+            template: AppBundle:Admin/Photo:create.html.twig
+            redirect: route_photo_index
+
+route_photo_update:
+    path: /{id}/update
+    methods: [GET, PATCH, PUT]
+    requirements:
+        id: \d+
+    defaults:
+        _controller: app.controller.photo:updateAction
+        _sylius:
+            template: AppBundle:Admin/Photo:update.html.twig
+            redirect: route_photo_index
+
+route_photo_delete:
+    path: /{id}/delete
+    methods: [DELETE]
+    requirements:
+        id: \d+
+    defaults:
+        _controller: app.controller.photo:deleteAction
+        _sylius:
+            redirect: route_photo_index
+
+route_photo_show:
+    path: /{id}/show
+    methods: [GET]
+    requirements:
+        id: \d+
+    defaults:
+        _controller: app.controller.photo:showAction
+        _sylius:
+            template: AppBundle:Admin/Photo:show.html.twig

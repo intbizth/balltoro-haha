@@ -1,0 +1,51 @@
+{% macro success(text, header = null) %}
+    <div class="alert alert-success">
+        {% if header %}
+            <h4 class="ui header">{{ header|default('ui.trans.alert.success'|trans) }}</h4>
+        {% endif %}
+        <p>{{ text|raw }}</p>
+    </div>
+{% endmacro %}
+
+{% macro info(text, header = null) %}
+    <div class="alert alert-info">
+        {% if header %}
+            <h4 class="ui header">{{ header|default('ui.trans.alert.info'|trans) }}</h4>
+        {% endif %}
+
+        <p>{{ text|raw }}</p>
+    </div>
+{% endmacro %}
+
+{% macro error(text, header = null) %}
+    <div class="alert alert-danger">
+        {% if header %}
+            <h4 class="ui header">{{ header|default('ui.trans.alert.error'|trans) }}</h4>
+        {% endif %}
+
+        <p>{{ text|raw }}</p>
+    </div>
+{% endmacro %}
+
+{% macro warning(text, header = null) %}
+    <div class="alert alert-warning">
+        {% if header %}
+            <h4 class="ui header">{{ header|default('ui.trans.alert.warning'|trans) }}</h4>
+        {% endif %}
+
+        <p>{{ text|raw }}</p>
+    </div>
+{% endmacro %}
+
+{% macro message(text, header = null, ui = null, icon=null) %}
+    <div class="alert {{ ui }}{% if icon %} icon{% endif %}">
+        {% if icon %}<i class="{{ icon }} icon"></i>{% endif %}
+        <div class="content">
+            {% if header %}
+                <h4 class="ui header">{{ header }}</h4>
+            {% endif %}
+
+            <p>{{ text|raw }}</p>
+        </div>
+    </div>
+{% endmacro %}

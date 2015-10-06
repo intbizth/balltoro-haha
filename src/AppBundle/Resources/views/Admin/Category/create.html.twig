@@ -1,0 +1,18 @@
+{% extends 'AppBundle:Admin:layout.html.twig' %}
+
+{% block init %}
+    {{ ui_page_options({
+        heading: "Category",
+        blocks: {
+            content: {
+                file: 'AppBundle:Admin/Category:_form.html.twig',
+                params: {category: category}
+            },
+            form: {
+                context: form,
+                start: {'action': path('route_category_create')},
+                end: {render_rest: false}
+            }
+        }
+    }) }}
+{% endblock %}

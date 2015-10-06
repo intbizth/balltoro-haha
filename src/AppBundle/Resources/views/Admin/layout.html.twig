@@ -1,0 +1,49 @@
+{% extends 'AppBundle:Admin:variables.html.twig' %}
+{% block html %}
+    <!DOCTYPE html>
+    <html{{ i_html|raw }} lang="{{ app.request.locale|split('_')[0] }}">
+    <head>
+        <title>{% block title %}{{ ui_page_get('title') }}{% endblock %}</title>
+        {% block metas %}{% include 'AppBundle:Admin:metas.html.twig' %}{% endblock %}
+        {% block styles %}{% include 'AppBundle:Admin:stylesheets.html.twig' %}{% endblock %}
+    </head>
+    <body>
+    <div id="wrapper">
+        {% block navside %}{% include 'AppBundle:Admin:nav-side.html.twig' %}{% endblock %}
+
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+                {% block navtop %}{% include 'AppBundle:Admin:nav-top.html.twig' %}{% endblock %}
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% block form_start %}
+                            {% if i_form %}
+                                {{ form_start(i_form.context, i_form.start|default([])) }}
+                            {% endif %}
+                        {% endblock %}
+
+                        {% block content %}
+                            {% if i_blocks.content|default(null) %}
+                                {% include i_blocks.content.file with i_blocks.content.params|default([]) %}
+                            {% endif %}
+                        {% endblock %}
+
+                        {% block form_end %}
+                            {% if i_form %}
+                                {{ form_end(i_form.context, i_form.end|default([])) }}
+                            {% endif %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+
+            {% block footer %}{% include 'AppBundle:Admin:footer.html.twig' %}{% endblock %}
+        </div>
+    </div>
+
+    {% block scripts %}{% include 'AppBundle:Admin:javascripts.html.twig' %}{% endblock %}
+    </body>
+    </html>
+{% endblock %}

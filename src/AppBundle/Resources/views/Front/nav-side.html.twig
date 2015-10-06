@@ -1,0 +1,31 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            {% if app.user %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a href="{{ path('route_category_index') }}">
+                            <i class="fa fa-folder-o"></i>
+                            <span class="nav-label">{{ 'Category' }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('route_photo_index') }}">
+                            <i class="fa fa-photo"></i>
+                            <span class="nav-label">{{ 'Photo' }}</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if is_granted('ROLE_SWEARER') %}
+                    <li>
+                        <a href="{{ path('route_swear_word_index') }}">
+                            <i class="fa fa-bullhorn"></i>
+                            <span class="nav-label">{{ 'Swear Word' }}</span>
+                        </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </div>
+</nav>

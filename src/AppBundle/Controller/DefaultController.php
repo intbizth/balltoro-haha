@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Model\SwearWordInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,7 +13,7 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
-     * @Template()
+     * @Template("AppBundle:Front:index.html.twig")
      */
     public function indexAction(Request $request)
     {
@@ -24,12 +25,14 @@ class DefaultController extends Controller
      */
     public function swearsAction(Request $request)
     {
-        return JsonResponse::create(['sw' => json_encode([
-            'เหี้ย' => 'ตัวเทอ',
-            'เป็ด' => 'หงส์ฟ้า',
-            'กาก' => 'น่ากราบ',
-            'ควย' => 'รวย',
-            'ไอ้' => 'คุณ',
-        ])]);
+        $words = $this->get('app.repository.swear_word')->findAll();
+        $output = array();
+
+        /** @var SwearWordInterface $word */
+        foreach ($words as $word) {
+            $output[$word->getSwear()] = $word->getReplacement();
+        }
+
+        return JsonResponse::create(['sw' => json_encode($output)]);
     }
 }

@@ -12,3 +12,11 @@
 
 bower_components/
 node_modules/
+
+src/AppBundle/Resources/public/*
+src/AppBundle/Resources/apps/**/css
+src/AppBundle/Resources/apps/**/js
+src/AppBundle/Resources/apps/**/fonts
+src/AppBundle/Resources/apps/**/images
+
+web/media

@@ -1,0 +1,33 @@
+AppBundle\Model\SwearWord:
+    type: entity
+    table: hah_swear_word
+
+    id:
+        id:
+            id: true
+            type: integer
+            generator:
+                strategy: AUTO
+
+    fields:
+        swear:
+            type: string
+            nullable: false
+
+        replacement:
+            type: string
+            nullable: true
+
+        createdAt:
+            type: datetime
+            column: created_at
+            gedmo:
+                timestampable:
+                    on: create
+
+        updatedAt:
+            type: datetime
+            column: updated_at
+            gedmo:
+                timestampable:
+                    on: update

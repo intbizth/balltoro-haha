@@ -1,0 +1,11 @@
+AppBundle\Model\SwearWord:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [swear]
+
+    properties:
+        swear:
+            - NotBlank: ~
+
+        replacement:
+            - NotBlank: ~

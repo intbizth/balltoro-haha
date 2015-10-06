@@ -8,6 +8,7 @@
             "SymfonyStandard\\": "app/SymfonyStandard/"
         }
     },
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.9",
         "symfony/symfony": "2.7.*",
@@ -18,7 +19,18 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0",
+        "stof/doctrine-extensions-bundle": "~1.2",
+        "liip/imagine-bundle": "~1.3",
+        "knplabs/knp-gaufrette-bundle": "0.2.*@dev",
+        "jms/serializer-bundle": "~0.13",
+        "liverbool/dos-resource-bundle": "0.16.*@dev",
+        "liverbool/dos-settings-bundle": "0.16.*@dev",
+        "doctrine/doctrine-cache-bundle": "~1.0@dev",
+        "sonata-project/seo-bundle": "~2.0@dev",
+        "misd/phone-number-bundle": "~1.0",
+        "knplabs/knp-menu-bundle": "~2",
+        "ircmaxell/password-compat": "~1.0.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

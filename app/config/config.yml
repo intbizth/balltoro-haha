@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: @AppBundle/Resources/config/services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -18,7 +19,7 @@ framework:
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
-    #serializer:      { enable_annotations: true }
+    serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
@@ -65,11 +66,21 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
+        types:
+            json: AppBundle\Doctrine\Types\JsonType
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        entity_managers:
+            default:
+                auto_mapping: true
+                filters:
+                    softdeleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
+        # cannot leave blank -- just config one interface to enable it!! (BUG)
+        resolve_target_entities:
+            AppBundle\Model\CategoryInterface: AppBundle\Model\Category
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -78,3 +89,42 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+stof_doctrine_extensions:
+    default_locale: %locale%
+    orm:
+        default:
+            tree: true
+            sluggable: true
+            timestampable: true
+            softdeleteable: true
+            loggable: true
+            sortable: true
+
+knp_gaufrette:
+    adapters:
+        filesystem_adapter:
+            local:
+                directory: "%kernel.root_dir%/../web/media/photo"
+                create: true
+    filesystems:
+        photo_filesystem:
+            adapter: filesystem_adapter
+
+liip_imagine:
+    loaders:
+        default:
+            filesystem:
+                data_root: "%kernel.root_dir%/../web/media/photo"
+
+    filter_sets:
+        cache: ~
+        filter:
+            quality: 100
+
+jms_serializer:
+    metadata:
+        directories:
+            Hateoas:
+                namespace_prefix: "Hateoas\\Representation"
+                path: "@AppBundle/Serializer/Hateoas"

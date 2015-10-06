@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+@import "inspinia";
+
+
+.paginator-bottom {
+    nav {
+        display: block;
+        text-align: center;
+
+        ul {
+            display: inline-block;
+        }
+    }
+}
+
+.no-result {
+    text-align: center;
+}
+
+table {
+    th, td {
+        &.action {
+            width: 80px;
+            text-align: center;
+        }
+    }
+}
+
+.dropdown-menu {
+    &.dropdown-menu-right {
+        left: auto !important;
+    }
+}
+
+.ui.form {
+    // error
+    ul.alert {
+        padding-left: 25px;
+        margin-top: 10px;
+    }
+}

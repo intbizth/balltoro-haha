@@ -1,0 +1,35 @@
+{
+  "name": "balltoro-haha-admin",
+  "version": "0.0.0",
+  "homepage": "https://github.com/intbizth/balltoro-haha",
+  "authors": [
+    "ツ Liverbool <nukboon@gmail.com>"
+  ],
+  "description": "Balltoro HaHa Admin",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "balltoro"
+  ],
+  "license": "Intbizth",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "~4.4.0",
+    "nprogress": "~0.2.0",
+    "requirejs": "~2.1.20",
+    "jquery": "~2.1.4",
+    "angular-ui-router": "~0.2.15",
+    "bootstrap": "~3.3.5",
+    "metisMenu": "~2.2.0",
+    "slimScroll": "~1.3.6",
+    "angular": "angularjs#~1.4.7",
+    "lightbox2": "~2.8.1"
+  }
+}

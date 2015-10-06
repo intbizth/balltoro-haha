@@ -1,0 +1,18 @@
+{% extends 'AppBundle:Admin:layout.html.twig' %}
+
+{% block init %}
+    {{ ui_page_options({
+        heading: "Photo",
+        blocks: {
+            content: {
+                file: 'AppBundle:Admin/Photo:_form.html.twig',
+                params: {photo: photo}
+            },
+            form: {
+                context: form,
+                start: {'action': path('route_photo_create')},
+                end: {render_rest: false}
+            }
+        }
+    }) }}
+{% endblock %}

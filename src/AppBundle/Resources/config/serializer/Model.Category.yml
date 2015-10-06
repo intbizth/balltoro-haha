@@ -1,0 +1,12 @@
+AppBundle\Model\Category:
+    exclusion_policy: ALL
+    xml_root_name: category
+
+    properties:
+        id:
+            expose: true
+            type: integer
+
+        name:
+            expose: true
+            type: string

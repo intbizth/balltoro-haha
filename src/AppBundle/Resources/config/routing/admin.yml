@@ -1,0 +1,11 @@
+app_admin_photo:
+    resource: "@AppBundle/Resources/config/routing/photo.yml"
+    prefix: /photo
+
+app_admin_category:
+    resource: "@AppBundle/Resources/config/routing/category.yml"
+    prefix: /category
+
+app_admin_swear_word:
+    resource: "@AppBundle/Resources/config/routing/swear_word.yml"
+    prefix: /swear_word

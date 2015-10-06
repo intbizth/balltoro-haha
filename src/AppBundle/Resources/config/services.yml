@@ -1,0 +1,26 @@
+services:
+    upload_filesystem:
+        class: Gaufrette\Filesystem
+        factory_service: knp_gaufrette.filesystem_map
+        factory_method: get
+        arguments:
+            - photo_filesystem
+
+    image_uploader:
+        class: AppBundle\Uploader\ImageUploader
+        arguments:
+            - @upload_filesystem
+
+    image_upload_subscriber:
+        class: AppBundle\EventListener\ImageUploadSubscriber
+        calls:
+            - [setContainer, [@service_container]]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    ui_twig_extension:
+        class: AppBundle\Twig\UiExtension
+        arguments:
+            - @liip_imagine.cache.manager
+        tags:
+            - { name: twig.extension }

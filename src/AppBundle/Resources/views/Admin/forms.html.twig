@@ -1,0 +1,268 @@
+{% extends 'bootstrap_3_layout.html.twig' %}
+
+{% block form_start -%}
+    {% if app.environment == 'dev' and 'novalidate' not in attr|keys %}
+        {% set attr = attr|merge({novalidate: 'novalidate'}) %}
+    {% endif %}
+    {{ parent() }}
+{%- endblock form_start %}
+
+{% block form_widget -%}
+    {% if compound %}
+        {{- block('form_widget_compound') -}}
+    {% else %}
+        {{- block('form_widget_simple') -}}
+    {% endif %}
+{%- endblock form_widget %}
+
+{% block form_widget_simple -%}
+    {% if selectize is defined %}
+        {% set options = selectize is sameas(true) ? {} : selectize %}
+
+        {% if delimiter|default %}
+            {% set options = options|merge({delimiter: delimiter}) %}
+        {% endif %}
+
+        {% set attr = attr|merge({'data-selectizer': options|json_encode}) %}
+    {% endif %}
+    {% spaceless %}
+        {{ parent() }}
+    {% endspaceless %}
+{%- endblock form_widget_simple %}
+
+{% block textarea_widget -%}
+    {% set editor = null %}
+    {% if htmleditor is defined %}
+        {% set _options = {} %}
+        {% if htmleditor|is_array %}
+            {% set _options = htmleditor|json_encode %}
+        {% endif %}
+        {% set attr = attr|merge({'data-htmleditor': _options|json_encode}) %}
+
+    {% endif %}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{- parent() -}}
+{%- endblock textarea_widget %}
+
+{% block choice_widget_expanded -%}
+    {#<div {{ block('widget_container_attributes') }}>#}
+    {%- for child in form %}
+        {{- form_row(child) -}}
+    {% endfor -%}
+    {#</div>#}
+{% endblock choice_widget_expanded %}
+
+{% block choice_widget_collapsed -%}
+    {% if selectize is defined %}
+        {% set options = selectize is sameas(true) ? {} : selectize %}
+        {% set attr = attr|merge({'data-selectizer': options|json_encode}) %}
+        {% set xui = xui is defined ? xui ~ ' selectize plain' : 'selectize plain' %}
+    {% endif %}
+
+    {% spaceless %}
+        <div class="ui input select{% if icon is defined %} left labeled icon{% endif %} {{ scale|default('') }} {{ xui|default('') }}">
+            {{ parent() }}
+        </div>
+    {% endspaceless %}
+{%- endblock choice_widget_collapsed %}
+
+{% block date_widget -%}
+    {% if widget == 'single_text' -%}
+        {% set attr = attr|merge({'data-value': value|default(''), 'data-datepicker': true}) %}
+        {{ block('form_widget_simple') }}
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }} class="field three fields date">
+            {{- date_pattern|replace({'-': ''})|replace({
+                '{{ year }}':  form_widget(form.year, {xui: 'field year'}),
+                '{{ month }}': form_widget(form.month, {xui: 'field month'}),
+                '{{ day }}':   form_widget(form.day, {xui: 'field day'}),
+            })|raw -}}
+        </div>
+    {%- endif %}
+{%- endblock date_widget %}
+
+{% block radio_widget -%}
+    <div class="ui radio {{ scale|default('') }} {{ xui|default('checkbox') }}">
+        <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        {% if label %}
+            {{ form_label(form) }}
+        {% else %}
+            {% if label is not sameas(false) -%}
+                {% if not compound -%}
+                    {% set label_attr = label_attr|merge({'for': id}) %}
+                {%- endif %}
+
+                {% if required -%}
+                    {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+                {%- endif %}
+
+                {% if label is empty -%}
+                    {% set label = name|humanize %}
+                {%- endif -%}
+
+                <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}></label>
+            {%- endif %}
+        {% endif %}
+    </div>
+{%- endblock radio_widget %}
+
+{% block money_widget %}
+    {% set icon = 'currency' %}
+    {% set xui = xui|default(' money') %}
+    {% set type = type|default('number') %}
+    {% set attr = attr|merge({'data-currency-symbol': ui_currency_symbol(currency|default(null))}) %}
+    {% spaceless %}
+        {{ block('form_widget_simple') }}
+    {% endspaceless %}
+{% endblock money_widget %}
+
+{% block percent_widget %}
+    {% set icon = 'percent' %}
+    {% spaceless %}
+        {{ block('form_widget_simple') }}
+    {% endspaceless %}
+{% endblock percent_widget %}
+
+{% block form_row %}
+    {% spaceless %}
+        {% set css_type = '' %}
+        {% if 'datetime' in form.vars.block_prefixes %}
+            {% set css_type = ' datetime ' ~ xui|default('') %}
+        {% endif %}
+        <div class="form-group{% if errors|length > 0 %} has-error has-feedback{% endif %}{% if required|default(null) %} required{% endif %}{{ css_type }} {{ box|default('') }}">
+            {% set custom = block(form.vars.unique_block_prefix) %}
+            {% if custom %}
+                {{ custom|raw }}
+            {% else %}
+                {% if 'radio' in form.vars.block_prefixes %}
+                    {# @deprecated my hacky change me use unique_block_prefix #}
+                    {% if form.parent and 'render_block' in form.parent.vars|keys %}
+                        {{ block(form.parent.vars.render_block) }}
+                    {% else %}
+                        {{ block('radio_widget') }}
+                    {% endif %}
+                {% elseif 'checkbox' in form.vars.block_prefixes %}
+                    {{ block('checkbox_widget') }}
+                {% else %}
+                    {{ form_label(form) }}
+                    {{ form_widget(form) }}
+                {% endif %}
+            {% endif %}
+
+            {% if errors|length > 0 %}
+                <ul class="alert alert-warning">
+                    {% for error in errors %}
+                        <li>
+                            {{ error.messagePluralization is null
+                            ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                            : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators') }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            <ul class="ui red pointing above ui label">
+                {% for error in errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block time_widget %}
+    {% if widget == 'single_text' %}
+        {% set attr = attr|merge({'data-timepicker': true}) %}
+        {{ block('form_widget_simple') }}
+    {% else %}
+        {% if widget == 'text' %}
+            {% set vars = { 'attr': { 'size': 1 }} %}
+        {% else %}
+            {% set vars = [] %}
+        {% endif %}
+        <div {{ block('widget_container_attributes') }} class="field two fields time">
+            {{ form_widget(form.hour, vars|merge({xui: 'field hour'})) }}
+            {{ form_widget(form.minute, vars|merge({xui: 'field minute'})) }}
+        </div>
+    {% endif %}
+{% endblock time_widget %}
+
+{% block _choice_widget_options -%}
+    {% for group_label, choice in options %}
+        {%- if choice is iterable -%}
+            <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+                {% set options = choice %}
+                {{- block('choice_widget_options') -}}
+            </optgroup>
+        {%- else -%}
+            <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.data.treeLabel|trans({}, translation_domain) }}</option>
+        {%- endif -%}
+    {% endfor %}
+{%- endblock _choice_widget_options %}
+
+{% block collection_widget -%}
+    {% from 'ui:backend/macros:alerts.html.twig' import no_result %}
+    {% set attr = attr|merge({'class': attr.class|default ~ ' controls collection-widget'}) %}
+
+    {% spaceless %}
+        <div data-form-type="collection"
+                {{ block('widget_container_attributes') }}
+                {% if prototype is defined and allow_add %}
+            data-prototype='{{ _self.collectionItem(prototype, allow_delete, button_delete_label, '__name__')|e }}'
+                {%- endif -%}>
+
+            {% if prototypes|default is iterable %}
+                {% for key, subPrototype in prototypes %}
+                    <input type="hidden"
+                           data-form-prototype="{{ key }}"
+                           value="{{ _self.collectionItem(subPrototype, allow_delete, button_delete_label, '__name__')|e }}" />
+                {% endfor %}
+            {% endif %}
+
+            <div data-form-collection="list" class="row collection-list">
+                {% for child in form %}
+                    {{ _self.collectionItem(child, allow_delete, button_delete_label, loop.index0) }}
+                {% endfor %}
+            </div>
+
+            {% if prototype is defined and allow_add %}
+                <a href="#" class="btn btn-success"
+                   data-form-collection="add">
+                    {#<i class="glyphicon glyphicon-plus"></i>#}
+                    <i class="glyphicon glyphicon-add collection-button-add"></i>
+                    {{ button_add_label|trans }}
+                </a>
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{%- endblock collection_widget %}
+
+{% macro collectionItem(form, allow_delete, button_delete_label, index) %}
+    {% spaceless %}
+        <div data-form-collection="item"
+             data-form-collection-index="{{ index }}"
+             class="collection-item">
+            <div class="collection-box{% if form|length == 1 %} unique-field{% endif %}">
+                {% if allow_delete %}
+                    <p class="text-right">
+                        <a href="#" data-form-collection="delete" class="btn btn-danger">
+                            <i class="glyphicon glyphicon-remove collection-button-remove"></i>
+                            {{ button_delete_label|trans }}
+                        </a>
+                    </p>
+                {% endif %}
+                {% if not form.children|length %}
+                    {{ form_widget(form) }}
+                {% else %}
+                    {{ form_rest(form) }}
+                {% endif %}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endmacro %}

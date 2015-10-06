@@ -1,0 +1,247 @@
+{% macro icon(name, size = 1, color = null) %}
+    {% from 'AppBundle:Front/macros:icons.html.twig' import icon %}
+    {{ icon(name, size, color) }}
+{% endmacro %}
+
+{%- block attributes -%}
+    {%- if attr.readonly|default(null) %} readonly="readonly"{% endif -%}
+    {%- if attr.disabled|default(null) %} disabled="disabled"{% endif -%}
+    {%- if attr.required|default(null) %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is sameas(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not sameas(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock attributes -%}
+
+{#
+    ## full configuration
+    btn.generic({
+        url: path(route, params),
+        icon: _self.icon('xx'),
+        text: text|trans,
+        button: 'submit',
+        cls: 'btn-default other-css',
+        attr: {attr: value}
+    })
+    ## butoon-tag configuration
+    btn.generic({
+        #url: path(route, params), <= NO CONFIG
+        icon: _self.icon('xx'),
+        text: text|trans,
+        button: 'submit', <= NO CONFIG
+        cls: 'btn-default other-css',
+        attr: {attr: value}
+    })
+    ## a-tag configuration
+    btn.generic({
+        url: path(route, params),
+        icon: _self.icon('xx'),
+        text: text|trans,
+        #button: 'submit', <= NO CONFIG
+        cls: 'btn-default other-css',
+        attr: {attr: value}
+    })
+#}
+
+{%- macro generic(options) %}
+    {%- if options.url|default(null) and options.button|default(null) is same as(null) %}
+        {%- set attr = options.attr|default({href: options.url}) -%}
+        <a class="btn {{ options.cls|default('btn-default') }}" {{- block('attributes') -}}>
+            {% if options.icon|default(null) %}{{ options.icon|raw }}{% endif %}
+            {% if options.text|default(null) %}{{ options.text|raw }}{% endif %}
+        </a>
+    {%- else -%}
+        {% set type = 'button' %}
+        {% if options.button|default() %}
+            {% set type = options.button %}
+        {% endif %}
+        {%- set attr = options.attr|default({type: type}) -%}
+        <button class="btn {{ options.cls|default('btn-default') }}" {{- block('attributes') -}}>
+            {% if options.icon|default(null) %}{{ options.icon|raw }}{% endif %} {{ options.text|raw }}
+        </button>
+    {% endif -%}
+{% endmacro -%}
+
+{% macro edit(options) %}
+    {% if is_string(options) %}
+        {% set options = {url: options} %}
+    {% endif %}
+
+    {% if options.text|default(null) is same as(null) %}
+        {% set options = options|merge({text: 'Edit'}) %}
+    {% endif %}
+
+    {% if options.icon|default(null) is same as(null) %}
+        {% set options = options|merge({icon: _self.icon('edit')}) %}
+    {% endif %}
+
+    {{ _self.generic(options) }}
+{% endmacro %}
+
+{% macro delete(options) %}
+    {% if is_string(options) %}
+        {% set options = {url: options} %}
+    {% endif %}
+
+    {% if options.button|default(null) is same as(null) %}
+        {% set options = options|merge({button: 'submit'}) %}
+    {% endif %}
+
+    {% if options.text|default(null) is same as(null) %}
+        {% set options = options|merge({text: 'Delete'}) %}
+    {% endif %}
+
+    {% if options.cls|default(null) is same as(null) %}
+        {% set options = options|merge({cls: 'btn-danger delete confirmation'}) %}
+    {% endif %}
+
+    {% if options.icon|default(null) is same as(null) %}
+        {% set options = options|merge({icon: _self.icon('trash-o')}) %}
+    {% endif %}
+
+    <form action="{{ options.url }}" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        {{ _self.generic(options) }}
+    </form>
+{% endmacro %}
+
+{% macro create(options) %}
+    {% if is_string(options) %}
+        {% set options = {url: options} %}
+    {% endif %}
+
+    {% if options.text|default(null) is same as(null) %}
+        {% set options = options|merge({text: 'Create'}) %}
+    {% endif %}
+
+    {% if options.cls|default(null) is same as(null) %}
+        {% set options = options|merge({cls: 'btn-primary'}) %}
+    {% endif %}
+
+    {{ _self.generic(options) }}
+{% endmacro %}
+
+{% macro new(options) %}
+    {% if is_string(options) %}
+        {% set options = {url: options} %}
+    {% endif %}
+
+    {% if options.icon|default(null) is same as(null) %}
+        {% set options = options|merge({icon: _self.icon('add')}) %}
+    {% endif %}
+
+    {% if options.cls|default(null) is same as(null) %}
+        {% set options = options|merge({cls: 'btn-info'}) %}
+    {% endif %}
+
+    {{ _self.generic(options) }}
+{% endmacro %}
+
+{% macro save(options = '') %}
+    {% if is_string(options) %}
+        {% set options = {text: options, button: 'submit'} %}
+    {% endif %}
+
+    {% if options.text|default(null) is same as(null) %}
+        {% set options = options|merge({text: 'Save'}) %}
+    {% endif %}
+
+    {% if options.cls|default(null) is same as(null) %}
+        {% set options = options|merge({cls: 'btn-success'}) %}
+    {% endif %}
+
+    {{ _self.generic(options) }}
+{% endmacro %}
+
+{% macro update(options = '') %}
+    {% if is_string(options) %}
+        {% set options = {text: options, button: 'submit'} %}
+    {% endif %}
+
+    {% if options.text|default(null) is same as(null) %}
+        {% set options = options|merge({text: 'Save Changes'}) %}
+    {% endif %}
+
+    {% if options.cls|default(null) is same as(null) %}
+        {% set options = options|merge({cls: 'btn-success'}) %}
+    {% endif %}
+
+    {{ _self.generic(options) }}
+{% endmacro %}
+
+{% macro cancel(options = '') %}
+    {% if is_string(options) %}
+        {% set options = {url: options} %}
+    {% endif %}
+
+    {% if options.url|default(null) is same as(null) %}
+        {% set options = options|merge({url: app.request.headers.get('referer')}) %}
+    {% endif %}
+
+    {% if options.text|default(null) is same as(null) %}
+        {% set options = options|merge({text: 'Cancel'}) %}
+    {% endif %}
+
+    {% if options.cls|default(null) is same as(null) %}
+        {% set options = options|merge({cls: 'btn-warning'}) %}
+    {% endif %}
+
+    {{ _self.generic(options) }}
+{% endmacro %}
+
+{% macro formSubmit(data, options = null) %}
+    {{ data.id ? _self.update() : _self.save() }}
+    {{ _self.cancel() }}
+{% endmacro %}
+
+{% macro actions(model, actions) %}
+    <div class="dropdown">
+        <label data-toggle="dropdown">
+            {{ _self.icon('cog') }}
+        </label>
+        <ul class="dropdown-menu-right dropdown-menu">
+            {% if actions|length %}
+                {% for a in actions %}
+                    <li>{{ a|raw }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+{% endmacro %}
+
+{%- macro link(opt) %}
+    {% set text = opt.text|default() ? opt.text : '' %}
+    {% if 'tip' in opt|keys and opt.tip is not sameas(false) %}
+        {% set tooltip = opt.tip|default() ? opt.tip : text %}
+    {% endif %}
+    {% set url = opt.url|default() ? opt.url : '' %}
+    {% set cls = opt.cls|default() ? opt.cls : '' %}
+    {% set attr = opt.attr|default([]) %}
+    <a class="{{ cls }}" {% if tooltip is defined %}data-toggle="tooltip"
+       title="{{ tooltip }}"{% endif %} {% if url %} href="{{ url }}"{% endif %} {{- block('attributes') -}}>
+        {{ opt.icon|default() ? opt.icon|raw : '' }} {{ text }}
+    </a>
+{% endmacro -%}
+
+{% macro action(opt) %}
+    {{ _self.link(opt|merge({
+        cls: 'btn btn-white btn-sm'
+    })) }}
+{% endmacro %}
+
+{% macro groups(btns, attr = {}) %}
+    {% if not attr.class|default() %}
+        {% set attr = attr|merge({class: 'btn-group'}) %}
+    {% endif %}
+    <div {{- block('attributes') -}}>
+        {% for btn in btns %}
+            {{ btn|raw }}
+        {% endfor %}
+    </div>
+{% endmacro %}

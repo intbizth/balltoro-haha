@@ -1,0 +1,49 @@
+{% extends 'AppBundle:Admin:layout.html.twig' %}
+
+{% block content %}
+    {% import 'AppBundle:Admin/macros:buttons.html.twig' as btn %}
+    {% import 'AppBundle:Admin/Photo:macros.html.twig' as fn %}
+    {% from 'AppBundle:Admin/macros:paginator.html.twig' import paginator %}
+    {% from 'AppBundle:Admin/macros:imgs.html.twig' import img %}
+
+    <div class="row">
+        <div class="col-lg-12 animated fadeInRight">
+            <div class="mail-box-header">
+                <h2>Photo</h2>
+                {{ fn.tools(photos) }}
+            </div>
+            <div class="mail-box">
+                {% if photos|length %}
+                    <table class="table table-hover table-mail">
+                        <thead>
+                        <tr>
+                            <th style="width: 40px"></th>
+                            <th class="text-left">{{ ui_sort('title', 'Title') }}</th>
+                            <th class="text-left">{{ ui_sort('category.name', 'Category') }}</th>
+                            <th class="action">{{ 'Actions' }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for r in photos %}
+                            <tr>
+                                <td>{{ img(r, '32x32') }}</td>
+                                <td class="text-left">{{ r.title }}</td>
+                                <td class="text-left">{{ r.category ? r.category.name : null }}</td>
+                                <td class="action">
+                                    {{ btn.actions(r, [
+                                        btn.edit(ui_route(r, 'route_photo_update')),
+                                        btn.delete(ui_route(r, 'route_photo_delete'))
+                                    ]) }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="no-result">No result.</div>
+                {% endif %}
+                {{ paginator(photos) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
