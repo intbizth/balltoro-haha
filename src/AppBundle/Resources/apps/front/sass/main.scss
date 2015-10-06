@@ -1,0 +1,94 @@
+@charset "UTF-8";
+
+body {
+    padding-top: 50px;
+}
+
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+#canvas {
+    width: 100%
+}
+
+.photo-list {
+    height: 400px;
+    overflow-y: scroll;
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.toolbox {
+    textarea {
+        resize: none;
+    }
+
+    &.-left {
+        textarea {
+            height: 80px;
+        }
+    }
+
+    &.-right {
+        textarea {
+            height: 36px;
+            box-shadow: none;
+        }
+
+        .input-group-addon {
+            top: 10px;
+        }
+    }
+
+    .colorpicker-element {
+        position: relative;
+    }
+
+    .input-group-addon {
+        position: absolute;
+        padding: 0;
+        background: none;
+        border: none;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: auto;
+        height: auto;
+
+        i {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #ddd;
+        }
+    }
+}
+
+.toolboxs {
+    padding: 20px 0;
+
+    .colorpicker {
+        &:before,
+        &:after {
+            display: none;
+        }
+    }
+
+    .actions {
+        text-align: right;
+        .btn {
+            margin-left: 10px;
+        }
+    }
+}
+
+.navbar-fixed-top {
+    background: #000;
+
+    .main-logo {
+        height: 74px;
+    }
+}
+
