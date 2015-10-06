@@ -1,0 +1,62 @@
+body {
+  padding-top: 50px; }
+
+.starter-template {
+  padding: 40px 15px;
+  text-align: center; }
+
+#canvas {
+  width: 100%; }
+
+.photo-list {
+  height: 400px;
+  overflow-y: scroll;
+  list-style: none;
+  padding: 0;
+  margin-top: 20px; }
+
+.toolbox textarea {
+  resize: none; }
+
+.toolbox.-left textarea {
+  height: 80px; }
+
+.toolbox.-right textarea {
+  height: 36px;
+  box-shadow: none; }
+
+.toolbox.-right .input-group-addon {
+  top: 10px; }
+
+.toolbox .colorpicker-element {
+  position: relative; }
+
+.toolbox .input-group-addon {
+  position: absolute;
+  padding: 0;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: auto;
+  height: auto; }
+  .toolbox .input-group-addon i {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #ddd; }
+
+.toolboxs {
+  padding: 20px 0; }
+  .toolboxs .colorpicker:before,
+  .toolboxs .colorpicker:after {
+    display: none; }
+  .toolboxs .actions {
+    text-align: right; }
+    .toolboxs .actions .btn {
+      margin-left: 10px; }
+
+.navbar-fixed-top {
+  background: #000; }
+  .navbar-fixed-top .main-logo {
+    height: 74px; }
