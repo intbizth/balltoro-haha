@@ -1,0 +1,36 @@
+<div class="header">
+    <h2>Balltoro Meme Maker</h2>
+</div>
+
+<div id="canvas-state">
+    <canvas id="canvas" data-def="{{ asset('bundles/app/front/asset/images/_The_best_player_of_Liverpool_Steven_Gerrard_048846_.jpg') }}">เบราเซอร์ของคุณไม่สนับสนุน Canvas</canvas>
+</div>
+
+<div class="row toolboxs">
+    <div class="col-sm-6">
+        <!-- TABLE SPLIT -->
+        <div class="toolbox -left">
+            <div class="colorpicker" data-memeId="0">
+                        <textarea id="txt0" class="form-control ng-pristine ng-valid ng-touched"
+                                  ng-model='memeArray[0].memeText' ng-change="applyChange()"></textarea>
+                <input type="hidden" value="#ffffff" class="form-control" />
+                <span class="input-group-addon"><i></i></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="toolbox -right">
+            <div class="colorpicker" data-memeId="1">
+                        <textarea id="txt1" class="form-control ng-pristine ng-valid ng-touched"
+                                  ng-model='memeArray[1].memeText' ng-change="applyChange()"></textarea>
+                <input type="hidden" value="#ffffff" class="form-control" />
+                <span class="input-group-addon"><i></i></span>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="btn btn-large" ng-click="reset()">Reset</button>
+            <button class="btn btn-large btn-success" ng-click="saveAsImage()">Save Image</button>
+        </div>
+    </div>
+</div><!-- end row -->

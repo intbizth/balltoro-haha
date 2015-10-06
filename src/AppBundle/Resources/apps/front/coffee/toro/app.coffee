@@ -1,6 +1,7 @@
 define [
     'jquery'
     'lightbox2'
+    'colorpicker'
     'toro/controller/main'
     'toro/controller/photo-list'
 ], ($, lightbox2) ->
@@ -10,3 +11,4 @@ define [
         lightbox2.option
             'resizeDuration': 200
             'wrapAround': true
+
