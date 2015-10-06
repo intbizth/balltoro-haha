@@ -1,11 +1,11 @@
 define(['angular'], function(angular) {
-  var ToroHahaAdmin;
+  var ToroHahaFront;
   angular.element('body').attr('ng-controller', 'MainController');
-  ToroHahaAdmin = angular.module('ToroHahaAdmin', ['ui.router']);
-  ToroHahaAdmin.run([
+  ToroHahaFront = angular.module('ToroHahaFront', ['ui.router']);
+  ToroHahaFront.run([
     '$rootScope', function($rootScope) {
       return console.log('Run ...');
     }
   ]);
-  return ToroHahaAdmin;
+  return ToroHahaFront;
 });
