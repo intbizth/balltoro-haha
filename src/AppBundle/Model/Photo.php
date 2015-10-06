@@ -121,4 +121,9 @@ class Photo implements PhotoInterface
     {
         $this->category = $category;
     }
+
+    public function getSelfPath()
+    {
+        return preg_replace('/\//', '-', $this->path);
+    }
 }

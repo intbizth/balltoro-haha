@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new Liip\ImagineBundle\LiipImagineBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
