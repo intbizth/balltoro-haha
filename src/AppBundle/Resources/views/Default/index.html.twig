@@ -1,25 +1,159 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <canvas id="canvas"></canvas>
-    <div class="ui raised segment" style="position: absolute; bottom: 0; opacity: .8; top: 20px; left: 20px">
-        <div class="ui input">
-            <input ng-model="baseText" type="text" placeholder="Type...">
-        </div>
-        <div class="ui input">
-            <input ng-model="actorText" type="text" placeholder="Type...">
-        </div>
-        <button class="ui blue button" type="button" ng-click="saveAs()">Save</button>
+
+<div class="container-fluid">
+    <div class="row headcover">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-4"><div class="logo1"></div></div>
+        <div class="col-sm-4"><div class="logo2"></div></div>
+        <div class="col-sm-2"></div>
     </div>
+</div>
+<div class="container-fluid myBar">
+    <div class="row">
+        <div class="col-sm-1">&nbsp;</div>
+        <div class="col-sm-5">------ Meme คำบอลโดนๆ สนุกกับฟุตบอลอย่างสร้างสรรค์</div>
+        <div class="col-sm-1">ติดตามข่าวสารฟุตบอล ผลบอล TPL, BPL ได้ที่ www.facebook.com/balltoro/ </div>
+    </div>
+</div>
+
+<div class="container myContainer">
+    <div class="container header"><legend><b>Balltoro Meme Maker </b></legend>
+        <button class="btn btn-primary btn-small"> Like</button> 3523959 like this site <!--<span class="glyphicon glyphicon-search"></span> -->
+    </div>
+
+    <div class="row center">
+            <canvas id="canvas">เบราเซอร์ของคุณไม่สนับสนุน Canvas</canvas>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 blink">
+        <!-- TABLE SPLIT -->
+            <table class="rightPanel">
+                <tr>
+                    <th colspan="4">ข้อความ 1</th>
+                </tr>
+                <tr>
+                    <th colspan="4">&nbsp;</th>
+                </tr>
+<!--                <tr>
+                    <td>Style:</td>
+                    <td colspan="2"><select class="form-control ng-pristine ng-valid ng-touched" ng-model="font_face" ng-init="font_face = fontList[0]" ng-change="applyChange()" ng-options="fnt.name for fnt in fontList"></select></td>
+                    <td></td>
+                </tr>
+-->
+                <tr>
+                    <td>Text:</td>
+                    <td colspan="3"><textarea id="txt0" rows="2" cols="50" class="form-control ng-pristine ng-valid ng-touched" ng-model='memeArray[0].memeText' ng-change="applyChange()"></textarea></td>
+                </tr>
+                <tr>
+                <td>Size:</td>
+                    <td><select class="form-control ng-pristine ng-valid ng-touched" ng-model="memeArray[0].size" ng-options="N for N in numRange(10, 120, 5)" ng-init="memeArray[0].size = 95" ng-change="applyChange()" ></select></td>
+                    <td colspan="2"><ul class="picker"><li class="colorPicker" ng-repeat="color in colors" ng-class="{selected: (color==memeArray[0].color)}" ng-click="pickFontColor(selectedMemeText, color)" ng-style="{'background-color':color};"></li></ul></td>
+                </tr>
+                <!--
+                <tr>
+                    <td>Shadow:</td>
+                    <td><ul class="picker"><li class="colorPicker" ng-repeat="color in shadows" ng-class="{selected: (color==memeArray[0].shadowColor)}" ng-click="pickShadowColor(0, color)" ng-style="{'background-color':color};"></li></ul></td>
+                    <td>Border Size:</td>
+                    <td><select class="form-control ng-pristine ng-valid ng-touched" ng-model="memeArray[0].border" ng-options="N for N in numRange(0, 20, 2)" ng-init="memeArray[0].border = 8" ng-change="applyChange()" ></select></td>
+                </tr>
+                -->
+                <tr>
+                    <td>Align:</td>
+                    <td colspan="3"><button class="btn" ng-click="txtAlign(0, 'left')">Left</button>
+                        <button class="btn" ng-click="txtAlign(0, 'center')">Center</button>
+                        <button class="btn" ng-click="txtAlign(0, 'right')">Right</button></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-sm-6 blink">
+        <!-- TABLE SPLIT -->
+            <table class="rightPanel">
+                <tr>
+                    <th colspan="4">ข้อความ 2</th>
+                </tr>
+                <tr>
+                    <th colspan="4">&nbsp;</th>
+                </tr>
+<!--                <tr>
+                    <td>Style:</td>
+                    <td colspan="2"><select class="form-control ng-pristine ng-valid ng-touched" ng-model="font_face" ng-init="font_face = fontList[0]" ng-change="applyChange()" ng-options="fnt.name for fnt in fontList"></select></td>
+                    <td></td>
+                </tr>
+-->
+                <tr>
+                    <td>Text:</td>
+                    <td colspan="3"><textarea id="txt1" rows="2" cols="50" class="form-control ng-pristine ng-valid ng-touched" ng-model='memeArray[1].memeText' ng-change="applyChange()"></textarea></td>
+                </tr>
+                <tr>
+                <td>Size:</td>
+                    <td><select class="form-control ng-pristine ng-valid ng-touched" ng-model="memeArray[1].size" ng-options="N for N in numRange(10, 120, 5)" ng-init="memeArray[1].size = 85" ng-change="applyChange()" ></select></td>
+                    <td colspan="2"><ul class="picker"><li class="colorPicker" ng-repeat="color in colors" ng-class="{selected: (color==memeArray[1].color)}" ng-click="pickFontColor(1, color)" ng-style="{'background-color':color};"></li></ul></td>
+                </tr>
+                <!--
+                <tr>
+                    <td>Shadow:</td>
+                    <td><ul class="picker"><li class="colorPicker" ng-repeat="color in shadows" ng-class="{selected: (color==memeArray[selectedMemeText].shadowColor)}" ng-click="pickShadowColor(selectedMemeText, color)" ng-style="{'background-color':color};"></li></ul></td>
+                    <td>Border Size:</td>
+                    <td><select class="form-control ng-pristine ng-valid ng-touched" ng-model="memeArray[selectedMemeText].border" ng-options="N for N in numRange(0, 20, 2)" ng-init="memeArray[selectedMemeText].border = 8" ng-change="applyChange()" ></select></td>
+                </tr>
+                -->
+                <tr>
+                    <td>Align:</td>
+                    <td colspan="3"><button class="btn" ng-click="txtAlign(1, 'left')">Left</button>
+                        <button class="btn" ng-click="txtAlign(1, 'center')">Center</button>
+                        <button class="btn" ng-click="txtAlign(1, 'right')">Right</button></td>
+                </tr>
+            </table>
+        </div>
+    </div><!-- end row -->
+</div><!-- end container setting -->
+
+
+    <!-- Meme container -->
+<div class="container myContainer">
+    <div class="row center">
+        <button class="btn btn-large" ng-click="reset()">Reset</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-large btn-primary" ng-click="create()">Save Image</button>
+        <button class="btn btn-large" ng-click="applyPosition(0)">APY</button>
+
+        <br/>
+        <b>Select Meme: <b/>
+        <div class="preview-wrap meme">
+            <img ng-src="{{ '{{pic.path}}' }}" ng-repeat="pic in memeList" ng-click="applyImage(pic.path)" class="memebox"></img>
+        </div>
+
+        <br/><br/><br/><br/><br/>
+        <button class="btn btn-large" ng-click="saveIt()">add Origin</button>
+        <button class="btn btn-large" ng-click="removeIt()">remove Origin</button>
+
+        <b>กว้าง: </b>
+        <input width="75px" type="number"  style="height: 30px"  ng-model='imgWidth' ng-change="applyChange()" placeholder="100" value="100"/>px
+        <br/>
+    </div>
+</div>
+
+
+<footer class="footer"> by <a href="http://balltoro.com" target="_blank">Balltoro.com</a> </footer>
+
+
 {% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('bundles/app/css/style.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/app/css/style.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/app/js/app.min.js') }}"></script>
-    <script type="text/javascript">require(['toro/app'], function() {angular.bootstrap(document, ['haha']);});</script>
+    <script src="{{ asset('bundles/app/js/jquery-1.9.1.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/angular.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/ui-bootstrap-tpls-0.13.4.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/app.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/json_decode.js') }}"></script>
+
+    <!--<script type="text/javascript">require(['toro/app'], function() {angular.bootstrap(document, ['haha']);});</script>-->
     <div id="fb-root"></div>
     <script>
         (function (d, s, id) {
