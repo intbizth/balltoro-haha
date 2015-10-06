@@ -45,5 +45,5 @@ requirejs.config({
 });
 
 require(['toro/app'], function() {
-  return angular.bootstrap(document, ['ToroHahaAdmin']);
+  return angular.bootstrap(document, ['ToroHahaFront']);
 });

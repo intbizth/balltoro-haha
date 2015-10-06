@@ -35,4 +35,4 @@ requirejs.config
         "lightbox2":  deps: ["jquery"]
 
 require ['toro/app'], ->
-    angular.bootstrap document, ['ToroHahaAdmin']
+    angular.bootstrap document, ['ToroHahaFront']

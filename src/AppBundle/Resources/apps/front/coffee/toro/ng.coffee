@@ -1,12 +1,12 @@
 define ['angular'], (angular) ->
     angular.element('body').attr 'ng-controller', 'MainController'
 
-    ToroHahaAdmin = angular.module('ToroHahaAdmin', [
+    ToroHahaFront = angular.module('ToroHahaFront', [
         'ui.router'
     ])
 
-    ToroHahaAdmin.run ['$rootScope', ($rootScope) ->
+    ToroHahaFront.run ['$rootScope', ($rootScope) ->
         console.log 'Run ...'
     ]
 
-    return ToroHahaAdmin
+    return ToroHahaFront

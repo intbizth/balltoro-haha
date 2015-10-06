@@ -5,7 +5,7 @@ define [
     'toro/controller/main'
     'toro/controller/photo-list'
 ], ($, lightbox2) ->
-    console.info 'Toro Admin app started.'
+    console.info 'Toro Front app started.'
 
     $ ->
         lightbox2.option
