@@ -1,62 +1,179 @@
+@charset "UTF-8";
 body {
-  padding-top: 50px; }
+  padding-top: 60px; }
+
+.btn {
+  border-radius: 0; }
+
+.panel {
+  border-width: 1px; }
+  .panel .panel-body {
+    padding: 15px 15px 0 15px; }
+
+.selectize-input {
+  box-shadow: none;
+  border-radius: 0; }
+  .selectize-input.focus {
+    box-shadow: none;
+    border-radius: 0; }
 
 .starter-template {
-  padding: 40px 15px;
-  text-align: center; }
+  padding: 40px 15px; }
+  .starter-template .header h2 {
+    margin: 0 0 10px 0;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold; }
+  .starter-template .header .social {
+    text-align: right; }
 
 #canvas {
   width: 100%; }
 
+.photo-header h3 {
+  margin: 0; }
+
 .photo-list {
-  height: 400px;
-  overflow-y: scroll;
   list-style: none;
-  padding: 0;
-  margin-top: 20px; }
+  padding: 0; }
+  .photo-list .thumbnail {
+    width: 100%; }
 
-.toolbox textarea {
-  resize: none; }
-
-.toolbox.-left textarea {
-  height: 80px; }
-
-.toolbox.-right textarea {
-  height: 36px;
-  box-shadow: none; }
-
-.toolbox.-right .input-group-addon {
-  top: 10px; }
-
-.toolbox .colorpicker-element {
-  position: relative; }
-
-.toolbox .input-group-addon {
-  position: absolute;
-  padding: 0;
-  background: none;
-  border: none;
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: auto;
-  height: auto; }
-  .toolbox .input-group-addon i {
-    width: 24px;
-    height: 24px;
-    border: 1px solid #ddd; }
+.toolbox {
+  margin-bottom: 10px; }
+  .toolbox .form-control {
+    resize: none;
+    box-shadow: none; }
+  .toolbox.-info {
+    text-align: left; }
+    .toolbox.-info .alert {
+      border-radius: 0; }
+  .toolbox.-editor {
+    padding: 5px 0;
+    box-shadow: none;
+    border: 1px solid #e7e7e7; }
+    .toolbox.-editor .form-control {
+      margin: 0 2px;
+      padding: 7px 7px;
+      font-size: 12px;
+      box-shadow: none;
+      border: none;
+      width: auto; }
+      .toolbox.-editor .form-control.font-color {
+        padding: 5px; }
+      .toolbox.-editor .form-control .sp-replacer {
+        border: none;
+        background: none; }
+      .toolbox.-editor .form-control .sp-preview {
+        border: none; }
 
 .toolboxs {
   padding: 20px 0; }
-  .toolboxs .colorpicker:before,
-  .toolboxs .colorpicker:after {
-    display: none; }
+  .toolboxs .form-control {
+    border-radius: 0; }
   .toolboxs .actions {
-    text-align: right; }
+    text-align: right;
+    margin-bottom: 20px; }
     .toolboxs .actions .btn {
       margin-left: 10px; }
 
 .navbar-fixed-top {
-  background: #000; }
+  background: #1d1b1c;
+  border-width: 0; }
   .navbar-fixed-top .main-logo {
-    height: 74px; }
+    height: 60px; }
+  .navbar-fixed-top .navbar-header-right {
+    float: right; }
+    .navbar-fixed-top .navbar-header-right img {
+      height: 60px; }
+
+.nav2 {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#0572bb+50,1e5799+50,1e5799+50,1e5799+52,ffffff+52,ffffff+52 */
+  background: #0572bb;
+  /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMwNTcyYmIiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMxZTU3OTkiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMxZTU3OTkiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI1MiUiIHN0b3AtY29sb3I9IiMxZTU3OTkiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI1MiUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI1MiUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  /* FF3.6+ */
+  /* Chrome,Safari4+ */
+  /* Chrome10+,Safari5.1+ */
+  /* Opera 11.10+ */
+  /* IE10+ */
+  background: linear-gradient(to right, #0572bb 50%, #1e5799 50%, #1e5799 50%, #1e5799 52%, #ffffff 52%, #ffffff 52%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0572bb', endColorstr='#ffffff',GradientType=1 );
+  /* IE6-8 */ }
+  .nav2 .container > div {
+    position: relative;
+    background: #ffffff;
+    height: 32px; }
+  .nav2 .container h1 {
+    height: 32px;
+    line-height: 32px;
+    background: #0572bb;
+    display: block;
+    float: left;
+    color: #ffffff;
+    padding: 0 60px 0 0;
+    margin: 0;
+    font-size: 14px;
+    min-width: 250px; }
+    .nav2 .container h1:before {
+      content: "—";
+      margin-right: 5px; }
+
+#canvas-state {
+  position: relative; }
+  #canvas-state.loading:before {
+    content: "Loading ...";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    font-family: "Comis Sans MS";
+    font-size: 50px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 3px #000;
+    z-index: 1; }
+  #canvas-state.loading #canvas {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px); }
+
+footer {
+  padding: 40px 0; }
+  footer .hint {
+    color: #333; }
+  footer .social {
+    text-align: center;
+    margin-top: 10px; }
+
+@media (max-width: 467px) {
+  .nav2 .container {
+    padding: 0; }
+  .nav2 h1 {
+    float: none !important; }
+  .header {
+    display: none; }
+  #canvas-state {
+    position: relative; }
+    #canvas-state.loading:before {
+      font-size: 30px;
+      left: 40%;
+      top: 40%; }
+  .container.content {
+    padding: 0; }
+    .container.content .starter-template {
+      padding: 0; }
+      .container.content .starter-template .panel {
+        border: none; }
+        .container.content .starter-template .panel .panel-body {
+          padding: 0; }
+      .container.content .starter-template .toolboxs {
+        padding: 5px; }
+        .container.content .starter-template .toolboxs .form-group {
+          margin-bottom: 0; }
+        .container.content .starter-template .toolboxs .form-control {
+          display: inline; } }

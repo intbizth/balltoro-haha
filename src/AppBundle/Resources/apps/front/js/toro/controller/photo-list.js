@@ -1,13 +1,28 @@
 define(['toro/ng'], function(ToroNg) {
   ToroNg.controller('PhotoListController', [
-    '$scope', 'Photos', function($scope, Photos) {
+    '$scope', '$http', 'Photos', function($scope, $http, Photos) {
       $scope.photos = new Photos();
-      $scope.photos.nextPage();
       $scope.selectedItem = 0;
-      return $scope.selectPicture = function(item) {
+      $scope.selectPicture = function(item) {
         $scope.applyImage(item._links.photo_url.href);
         return $scope.selectedItem = item.id;
       };
+      $scope.category = null;
+      $scope.categories = null;
+      $scope.categorySelectizeConfig = {
+        valueField: 'id',
+        labelField: 'name',
+        placeholder: 'กรองตามหมวดหมู่'
+      };
+      $scope.$watch('category', function(value) {
+        $scope.photos.page = 0;
+        $scope.photos.items = [];
+        $scope.photos.category = value;
+        return $scope.photos.nextPage(value);
+      });
+      return $http.get('/categories').then(function(resp) {
+        return $scope.categories = resp.data._embedded.items;
+      });
     }
   ]);
   ToroNg.directive('whenScrolled', function() {
@@ -29,17 +44,25 @@ define(['toro/ng'], function(ToroNg) {
         this.busy = false;
         this.ended = false;
         this.page = 0;
+        this.category = null;
         return this;
       };
       Photos.prototype.nextPage = function() {
-        var promise;
+        var params, promise;
         if (this.busy || this.ended) {
           return;
         }
         this.busy = true;
+        params = {
+          page: this.page + 1,
+          criteria: {
+            category: this.category || null
+          }
+        };
         promise = $http({
           method: 'GET',
-          url: '/photos?page=' + (this.page + 1)
+          params: params,
+          url: '/photos'
         });
         promise["finally"]((function(_this) {
           return function() {
@@ -54,7 +77,7 @@ define(['toro/ng'], function(ToroNg) {
             if (data.page === data.pages) {
               _this.ended = true;
             }
-            return angular.extend(_this.items, data._embedded.items);
+            return _this.items = [].concat(_this.items, data._embedded.items);
           };
         })(this), function(xhr) {
           return console.log('error');

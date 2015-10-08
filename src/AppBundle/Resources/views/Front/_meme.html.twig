@@ -1,36 +1,68 @@
-<div class="header">
-    <h2>Balltoro Meme Maker</h2>
+<div class="header row">
+    <div class="col-md-6">
+        <h2>#playmaker</h2>
+    </div>
+
+    <div class="col-md-6">
+        <div class="social">
+            <div class="fb-like" data-href="{{ url('homepage') }}" data-layout="button_count"
+                 data-action="like" data-show-faces="true" data-share="true"></div>
+        </div>
+    </div>
 </div>
 
 <div id="canvas-state">
-    <canvas id="canvas" data-def="{{ asset('bundles/app/front/asset/images/_The_best_player_of_Liverpool_Steven_Gerrard_048846_.jpg') }}">เบราเซอร์ของคุณไม่สนับสนุน Canvas</canvas>
+    <canvas id="canvas"
+            data-def="{{ asset('bundles/app/front/asset/images/_The_best_player_of_Liverpool_Steven_Gerrard_048846_.jpg') }}">
+        เบราเซอร์ของคุณไม่สนับสนุน Canvas
+    </canvas>
 </div>
 
 <div class="row toolboxs">
-    <div class="col-sm-6">
-        <!-- TABLE SPLIT -->
-        <div class="toolbox -left">
-            <div class="colorpicker" data-memeId="0">
-                        <textarea id="txt0" class="form-control ng-pristine ng-valid ng-touched"
-                                  ng-model='memeArray[0].memeText' ng-change="applyChange()"></textarea>
-                <input type="hidden" value="#ffffff" class="form-control" />
-                <span class="input-group-addon"><i></i></span>
+    <div class="col-sm-4">
+        <div class="toolbox -info visible-lg">
+            <div class="alert alert-info" role="alert"><i class="fa fa-lightbulb-o"></i>
+                คุณสามารถลากตัวอักษรไปยังตำแหน่งที่ต้องการได้
             </div>
         </div>
-    </div>
+        <div class="toolbox -editor">
+            <div class="form-inline">
+                <div class="form-group">
+                    <select ng-model="fontFace" ng-init="fontFace = fonts[0]" class="form-control font-face">
+                        <option ng-repeat="font in fonts" value="{{ '{{font}}' }}">{{ '{{font}}' }}</option>
+                    </select>
 
-    <div class="col-sm-6">
-        <div class="toolbox -right">
-            <div class="colorpicker" data-memeId="1">
-                        <textarea id="txt1" class="form-control ng-pristine ng-valid ng-touched"
-                                  ng-model='memeArray[1].memeText' ng-change="applyChange()"></textarea>
-                <input type="hidden" value="#ffffff" class="form-control" />
-                <span class="input-group-addon"><i></i></span>
+                    <select ng-model="fontStyle" ng-init="fontStyle = fontStyles[0].id" class="form-control font-style">
+                        <option ng-repeat="style in fontStyles"
+                                value="{{ '{{style.id}}' }}">{{ '{{style.label}}' }}</option>
+                    </select>
+
+                    <select ng-model="fontSize" class="form-control font-size">
+                        <option ng-repeat="size in fontSizes" value="{{ '{{size}}' }}">{{ '{{size}}' }}px</option>
+                    </select>
+
+                    <spectrum-colorpicker class="form-control font-color" ng-model="fontColor"
+                                          options="spectrumOptions"></spectrum-colorpicker>
+                </div>
             </div>
+        </div>
+
+        <div class="toolbox -text">
+            <textarea id="txt0" class="form-control ng-pristine ng-valid ng-touched" ng-focus="memeActive(0)"
+                      ng-model='memeArray[0].memeText' ng-change="applyChange()"></textarea>
+        </div>
+        <div class="toolbox -credit">
+            <input id="txt1" class="form-control ng-pristine ng-valid ng-touched" ng-focus="memeActive(1)"
+                   ng-model='memeArray[1].memeText' ng-change="applyChange()">
         </div>
         <div class="actions">
             <button class="btn btn-large" ng-click="reset()">Reset</button>
             <button class="btn btn-large btn-success" ng-click="saveAsImage()">Save Image</button>
         </div>
+        <div id="download-link"></div>
+    </div>
+
+    <div class="col-sm-8">
+        {{ include('AppBundle:Front:_photo-list.html.twig') }}
     </div>
 </div><!-- end row -->

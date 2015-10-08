@@ -3,27 +3,22 @@ define ['toro/ng', 'toro/canvas', 'toro/config'], (ToroNg, CanvasHelper, Config)
         '$scope', '$http', ($scope, $http) ->
             new Config $scope
 
-            selectedText = -1
             startX = 0
             startY = 0
+            activedDragText = -1
             $scope.$canvasEl = $canvasEl = angular.element($scope.config.canvasSelector)
 
             $scope.selectedImage = $canvasEl.data('def')
             $scope.imgWidth = $scope.config.image.width
             $scope.imgHeight = $scope.config.image.height
-            $scope.fontFace = $scope.config.fontFace
-            $scope.selectedMemeText = 0
+            $scope.activedMemeText = 0
 
             $scope.memeArray = $scope.config.texts
-            $scope.fontList = $scope.config.fontList
-            $scope.colors = $scope.config.colors
-            $scope.shadows = $scope.config.shadows
-
-            canvasOffset = $canvasEl.offset()
-            offsetX = canvasOffset.left
-            offsetY = canvasOffset.top
-            scrollX = $canvasEl.scrollLeft()
-            scrollY = $canvasEl.scrollTop()
+            $scope.fonts = $scope.config.fonts
+            $scope.fontSizes = $scope.config.fontSizes
+            $scope.fontStyles = $scope.config.fontStyles
+            $scope.colorPalette = $scope.config.colors
+            $scope.activedAttr = $scope.memeArray[$scope.activedMemeText]
 
             # Keep swear word for restore
             keepRestoreText = []
@@ -40,41 +35,11 @@ define ['toro/ng', 'toro/canvas', 'toro/config'], (ToroNg, CanvasHelper, Config)
 
                 return string
 
-            selectHighlight = (index) ->
-                keepBorder = $scope.memeArray[index].border
-                startBorder = 80
-
-                #=== blink panel ===//
-                $($('.blink')[index]).addClass 'blink-effect'
-
-                blinkInterval = setInterval((->
-                    $($('.blink')[index]).removeClass 'blink-effect'
-                    clearInterval blinkInterval
-                    return
-                ), 500)
-
-                #$("#txt"+index).focus(); //ทำการ setFocus
-                #$("#txt"+index).select(); //ทำการ SelectAll
-                #=== animate selected text border ===//
-                myInterval = setInterval((->
-                    if startBorder > keepBorder
-                        $scope.memeArray[index].border = startBorder
-                        canvasHelper.draw()
-                        startBorder -= 5
-                    else
-                        clearInterval myInterval
-                        $scope.memeArray[index].border = keepBorder
-                    return
-                ), 10)
-
-                return
-
             textHittest = (x, y, textIndex) ->
                 text = $scope.memeArray[textIndex]
                 hitMoreUp = 60
                 #เผื่อ hit บน
                 hitMoreDown = 10
-                #$scope.font_size*1.3; //เผื่อ hit ลง
                 hitLessAlign = 0
                 #ขยาย hitbox ไปทางซ้าย กรณีชิด ช่น ชิดซ้าย=0; ชิดกลาง= ย่นไปครึ่ง;
                 hitLessWidth = 0
@@ -90,13 +55,7 @@ define ['toro/ng', 'toro/canvas', 'toro/config'], (ToroNg, CanvasHelper, Config)
                         hitLessAlign = text.w
                         hitLessWidth = text.w
 
-                newWidth = $canvasEl.width()
-                newHeight = $canvasEl.height()
-
                 x >= text.x - hitLessAlign and x <= text.x + text.w - hitLessWidth and y >= text.y - hitMoreUp and y <= text.h + hitMoreDown
-                #return (x >= (text.x - hitLessAlign) && x <= text.x + (text.w - hitLessWidth) && y >= (text.y - hitMoreUp) && y <= (text.h+hitMoreDown));
-                #[ เริ่ม x กว้างถึง width ---- width]
-                #[ y | | | | height]
 
 
             getMousePos = (evt) ->
@@ -120,25 +79,17 @@ define ['toro/ng', 'toro/canvas', 'toro/config'], (ToroNg, CanvasHelper, Config)
                 startX = mouseXT
                 startY = mouseYT
 
-                #check what am i clicking
-                i = 0
-
-                while i < $scope.memeArray.length
+                # check what am i clicking
+                for text, i in $scope.memeArray
                     if textHittest(startX, startY, i)
-                        if $scope.memeArray[i].dragable == true
-                            selectHighlight i
+                        console.log(i)
+                        if text.dragable == true
                             $scope.$apply ->
-                                $scope.selectedMemeText = i
-                                return
-
-                            #เปลี่ยน ค่าต่างใน element panel
-                            selectedText = i
-                            #ลากได้ไหม ยกเว้นเครดิต
-                    i++
-                return
+                                $scope.activedMemeText = i
+                            activedDragText = i
 
             handleMouseMove = (e) ->
-                if selectedText < 0
+                if activedDragText < 0
                     return
 
                 e.preventDefault()
@@ -147,7 +98,7 @@ define ['toro/ng', 'toro/canvas', 'toro/config'], (ToroNg, CanvasHelper, Config)
                 mouseX = mouse.x
                 mouseY = mouse.y
 
-                text = $scope.memeArray[selectedText]
+                text = $scope.memeArray[activedDragText]
 
                 #Find Scale of responsive canvas
                 newWidth = $canvasEl.width()
@@ -169,25 +120,23 @@ define ['toro/ng', 'toro/canvas', 'toro/config'], (ToroNg, CanvasHelper, Config)
 
             handleMouseUp = (e) ->
                 e.preventDefault()
-                selectedText = -1
+                activedDragText = -1
                 return
 
-            randomName = ->
-                n = []
-                i = 0
-                while i < 5
-                    n.push Math.floor(Math.random() * 16).toString(16)
-                    i++
-                n.join ''
-
             downloadImage = (uri, name) ->
-                # todo is support brows
-                link = angular.element('<a>')[0]
+                $area = angular.element($scope.config.downloadLinkSelector)
+                $link = angular.element('<a>')
+                $link.on 'click', ->
+                    $link.remove()
+
+                $area.append $link
+
+                link = $link[0]
                 link.download = name
                 link.href = uri
+                link.innerHTML = $scope.config.clickToDownload
+                link.target = '_new'
                 link.click()
-                # else
-                #window.location.href = uri
 
             # APIs
             $scope.applyChange = ->
@@ -202,56 +151,43 @@ define ['toro/ng', 'toro/canvas', 'toro/config'], (ToroNg, CanvasHelper, Config)
                     i += skip
                 return num
 
-            $scope.txtAlign = (memeId, align) ->
-                $scope.memeArray[memeId].align = align
+            $scope.applyAttr = (memeId, attr, value) ->
+                $scope.memeArray[memeId][attr] = value
                 $scope.applyChange()
                 return
 
-            $scope.txtSize = (memeId, size) ->
-                # ปุ่มปรับขนาด
-                $scope.memeArray[memeId].size = size
-                $scope.applyChange()
-                return
+            $scope.applyImage = (image) ->
+                img = new Image
+                img.setAttribute 'crossOrigin', 'anonymous'
+                img.src = image
+                $state = angular.element($scope.config.canvasStateSelector)
+                $state.addClass 'loading'
 
-            $scope.pickFontColor = (memeId, color) ->
-                # ปุ่มจิ้มสี
-                $scope.memeArray[memeId].color = color
-                $scope.applyChange()
-                return
-
-            $scope.pickShadowColor = (memeId, color) ->
-                # ปุ่มจิ้มเงา
-                $scope.memeArray[memeId].shadowColor = color
-                $scope.applyChange()
-                return
-
-            $scope.applyImage = (img) ->
-                # ปุ่มรูปมีม
-                $scope.selectedImage = img
-                $scope.applyChange()
+                img.onload = (e) ->
+                    $state.removeClass 'loading'
+                    $scope.selectedImage = image
+                    $scope.applyChange()
 
                 # Scroll up when select an image
                 $('body').animate { scrollTop: $canvasEl.position().top - 40 }, 600
                 return
 
-            $scope.reset = ->
-                # ปุ่ม reset
-                $scope.memeArray = originMeme
+            $scope.memeActive = (index) ->
+                $scope.activedMemeText = index
 
-                # CLEAR
+            $scope.reset = ->
+                $scope.memeArray = originMeme
                 originMeme = angular.copy($scope.memeArray)
                 $scope.applyChange()
                 return
 
-
             # Download Image
             $scope.saveAsImage = ->
-                #var uri = cloneCanvas(canvas).toDataURL();
                 $scope.repeatSwear true
 
                 myInterval = setInterval((->
                     uri = $canvasEl[0].toDataURL()
-                    downloadImage uri, 'Balltoro-haha_' + randomName()
+                    downloadImage uri, 'balltoro-haha-' + (new Date()).getTime()
                     $scope.repeatSwear false
                     clearInterval myInterval
                     return
@@ -261,7 +197,6 @@ define ['toro/ng', 'toro/canvas', 'toro/config'], (ToroNg, CanvasHelper, Config)
             $scope.repeatSwear = (wantReplace) ->
                 if wantReplace
                     keepRestoreText = []
-                    #clear
                     i = 0
 
                     while i < $scope.memeArray.length
@@ -287,17 +222,6 @@ define ['toro/ng', 'toro/canvas', 'toro/config'], (ToroNg, CanvasHelper, Config)
             $canvasEl.mouseup handleMouseUp
             $canvasEl.mouseout handleMouseUp
 
-            $canvasEl.dblclick (e) ->
-                handleMouseDown e
-                $input = $('#txt' + selectedText)
-
-                $input.focus()
-                # ทำการ setFocus
-                $input.select()
-                # ทำการ SelectAll
-                handleMouseUp e
-                return
-
             # Get swear words
             promise = $http
                 type: 'GET'
@@ -306,10 +230,36 @@ define ['toro/ng', 'toro/canvas', 'toro/config'], (ToroNg, CanvasHelper, Config)
             promise.then (xhr) ->
                 swearWords = JSON.parse(xhr.data.sw)
 
-            $('.colorpicker')
-                .colorpicker()
-                .on 'changeColor', ->
-                    color = $(@).data('colorpicker').getValue()
-                    $scope.pickFontColor $(@).data('memeid'), color
+            # http://bgrins.github.io/spectrum/#details-acceptedColorInputs
+            $scope.spectrumOptions =
+                showPaletteOnly: yes
+                togglePaletteOnly: yes
+                togglePaletteMoreText: 'More'
+                togglePaletteLessText: 'Less'
+                preferredFormat: 'hex'
+                color: $scope.activedAttr.fontColor
+                palette: $scope.colorPalette
 
+            $scope.$watch 'fontColor', (value) ->
+                $scope.applyAttr $scope.activedMemeText, 'fontColor', (value || '#ffffff')
+
+            $scope.$watch 'fontSize', (value) ->
+                return unless value
+                $scope.applyAttr $scope.activedMemeText, 'fontSize', value
+
+            $scope.$watch 'fontStyle', (value) ->
+                $scope.applyAttr $scope.activedMemeText, 'fontStyle', (value || 'normal')
+
+            $scope.$watch 'fontFace', (value) ->
+                return unless value
+                $scope.applyAttr $scope.activedMemeText, 'fontFace', value
+
+            # set active attrs
+            $scope.$watch 'activedMemeText', (activeIndex) ->
+                $scope.activedAttr = attr = $scope.memeArray[activeIndex]
+                $scope.fontColor = attr.fontColor
+                $scope.fontFace = attr.fontFace
+                $scope.fontStyle = attr.fontStyle
+                $scope.fontSize = attr.fontSize
+                $('txt' + activeIndex).focus()
     ]

@@ -1,4 +1,4 @@
-define(['jquery', 'lightbox2', 'colorpicker', 'toro/controller/main', 'toro/controller/photo-list'], function($, lightbox2) {
+define(['jquery', 'lightbox2', 'toro/controller/main', 'toro/controller/photo-list'], function($, lightbox2) {
   console.info('Toro Front app started.');
   return $(function() {
     return lightbox2.option({
