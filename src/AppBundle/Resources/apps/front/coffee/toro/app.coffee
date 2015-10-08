@@ -1,7 +1,6 @@
 define [
     'jquery'
     'lightbox2'
-    'colorpicker'
     'toro/controller/main'
     'toro/controller/photo-list'
 ], ($, lightbox2) ->

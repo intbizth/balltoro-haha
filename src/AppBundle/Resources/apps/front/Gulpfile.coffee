@@ -32,17 +32,21 @@ paths =
     ]
 
     css: [
+        './bower_components/selectize/dist/css/selectize.default.css'
         './bower_components/font-awesome/css/font-awesome.css'
-        #'./bower_components/bootstrap/dist/css/bootstrap.css'
-        './sass/bootstrap-lumen.css'
-        './sass/bootstrap-colorpicker.css'
+        './bower_components/bootstrap/dist/css/bootstrap.css'
+        #'./sass/bootstrap-lumen.css'
+        #'./sass/bootstrap-paper.css'
+        './sass/bootstrap-cusmo.css'
+        #'./sass/bootstrap-colorpicker.css'
+        './bower_components/spectrum/spectrum.css'
         './bower_components/lightbox2/dist/css/lightbox.css'
     ]
 
     copy: [
         ['./bower_components/font-awesome/fonts/*', publicPath('front/fonts')]
         ['./bower_components/lightbox2/dist/images/*', publicPath('front/images')]
-        ['./bower_components/mjolnic-bootstrap-colorpicker/dist/img/**/*', publicPath('front/images')]
+        #['./bower_components/mjolnic-bootstrap-colorpicker/dist/img/**/*', publicPath('front/images')]
         ['./asset/**/*', publicPath('front')]
     ]
 

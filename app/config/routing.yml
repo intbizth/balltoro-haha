@@ -25,6 +25,16 @@ photo_list:
             filterable: true
             sortable: true
 
+category_list:
+    path: /categories
+    methods: [GET]
+    defaults:
+        _controller: app.controller.category:indexAction
+        _format: json
+        _sylius:
+            filterable: true
+            sortable: true
+
 photo_url:
     path: /photos/{path}
     methods: [GET]

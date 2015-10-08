@@ -1,10 +1,22 @@
 <div ng-controller="PhotoListController">
-    <ul class="photo-list row" when-scrolled="photos.nextPage()">
-        <li class="col-xs-6 col-md-3" ng-repeat='item in photos.items' ng-click="selectPicture(item)" ng-class="{selected: item.id == selectedItem}">
-            <img class="thumbnail"
-                ng-src="{{ '{{ item._links.photo_sizing_url.href }}' }}"
-                title="{{ '{{ item.title }}' }}">
-        </li>
-        <li class="loading" ng-show="photos.busy">Loading data...</li>
-    </ul>
+    <div class="row photo-header">
+        <div class="col-md-6"><h3><i class="fa fa-photo"></i> เลือกภาพ</h3></div>
+        <div class="col-md-6">
+            <selectize config='categorySelectizeConfig' options='categories' ng-model="category"></selectize>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <ul class="photo-list row" when-scrolled="photos.nextPage()" slimscroll="{height: '450px'}">
+                <li class="col-md-4" ng-repeat='item in photos.items' ng-click="selectPicture(item)"
+                    ng-class="{selected: item.id == selectedItem}">
+                    <img class="thumbnail"
+                         ng-src="{{ '{{ item._links.photo_sizing_url.href }}' }}"
+                         title="{{ '{{ item.title }}' }}">
+                </li>
+                <li class="loading" ng-show="photos.busy">Loading data...</li>
+            </ul>
+        </div>
+    </div>
 </div>

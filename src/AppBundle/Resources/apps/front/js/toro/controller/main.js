@@ -1,26 +1,22 @@
 define(['toro/ng', 'toro/canvas', 'toro/config'], function(ToroNg, CanvasHelper, Config) {
   return ToroNg.controller('MainController', [
     '$scope', '$http', function($scope, $http) {
-      var $canvasEl, canvasHelper, canvasOffset, downloadImage, getMousePos, handleMouseDown, handleMouseMove, handleMouseUp, keepRestoreText, offsetX, offsetY, originMeme, promise, randomName, replaceText, scrollX, scrollY, selectHighlight, selectedText, startX, startY, swearWords, textHittest;
+      var $canvasEl, activedDragText, canvasHelper, downloadImage, getMousePos, handleMouseDown, handleMouseMove, handleMouseUp, keepRestoreText, originMeme, promise, replaceText, startX, startY, swearWords, textHittest;
       new Config($scope);
-      selectedText = -1;
       startX = 0;
       startY = 0;
+      activedDragText = -1;
       $scope.$canvasEl = $canvasEl = angular.element($scope.config.canvasSelector);
       $scope.selectedImage = $canvasEl.data('def');
       $scope.imgWidth = $scope.config.image.width;
       $scope.imgHeight = $scope.config.image.height;
-      $scope.fontFace = $scope.config.fontFace;
-      $scope.selectedMemeText = 0;
+      $scope.activedMemeText = 0;
       $scope.memeArray = $scope.config.texts;
-      $scope.fontList = $scope.config.fontList;
-      $scope.colors = $scope.config.colors;
-      $scope.shadows = $scope.config.shadows;
-      canvasOffset = $canvasEl.offset();
-      offsetX = canvasOffset.left;
-      offsetY = canvasOffset.top;
-      scrollX = $canvasEl.scrollLeft();
-      scrollY = $canvasEl.scrollTop();
+      $scope.fonts = $scope.config.fonts;
+      $scope.fontSizes = $scope.config.fontSizes;
+      $scope.fontStyles = $scope.config.fontStyles;
+      $scope.colorPalette = $scope.config.colors;
+      $scope.activedAttr = $scope.memeArray[$scope.activedMemeText];
       keepRestoreText = [];
       swearWords = {};
       canvasHelper = new CanvasHelper($scope);
@@ -36,28 +32,8 @@ define(['toro/ng', 'toro/canvas', 'toro/config'], function(ToroNg, CanvasHelper,
         }
         return string;
       };
-      selectHighlight = function(index) {
-        var blinkInterval, keepBorder, myInterval, startBorder;
-        keepBorder = $scope.memeArray[index].border;
-        startBorder = 80;
-        $($('.blink')[index]).addClass('blink-effect');
-        blinkInterval = setInterval((function() {
-          $($('.blink')[index]).removeClass('blink-effect');
-          clearInterval(blinkInterval);
-        }), 500);
-        myInterval = setInterval((function() {
-          if (startBorder > keepBorder) {
-            $scope.memeArray[index].border = startBorder;
-            canvasHelper.draw();
-            startBorder -= 5;
-          } else {
-            clearInterval(myInterval);
-            $scope.memeArray[index].border = keepBorder;
-          }
-        }), 10);
-      };
       textHittest = function(x, y, textIndex) {
-        var hitLessAlign, hitLessWidth, hitMoreDown, hitMoreUp, newHeight, newWidth, text;
+        var hitLessAlign, hitLessWidth, hitMoreDown, hitMoreUp, text;
         text = $scope.memeArray[textIndex];
         hitMoreUp = 60;
         hitMoreDown = 10;
@@ -75,8 +51,6 @@ define(['toro/ng', 'toro/canvas', 'toro/config'], function(ToroNg, CanvasHelper,
             hitLessAlign = text.w;
             hitLessWidth = text.w;
         }
-        newWidth = $canvasEl.width();
-        newHeight = $canvasEl.height();
         return x >= text.x - hitLessAlign && x <= text.x + text.w - hitLessWidth && y >= text.y - hitMoreUp && y <= text.h + hitMoreDown;
       };
       getMousePos = function(evt) {
@@ -88,7 +62,7 @@ define(['toro/ng', 'toro/canvas', 'toro/config'], function(ToroNg, CanvasHelper,
         };
       };
       handleMouseDown = function(e) {
-        var i, mouseXT, mouseYT, newWidth, ratio;
+        var i, j, len, mouseXT, mouseYT, newWidth, ratio, ref, results, text;
         e.preventDefault();
         newWidth = $canvasEl.width();
         ratio = newWidth / $scope.imgWidth;
@@ -96,30 +70,36 @@ define(['toro/ng', 'toro/canvas', 'toro/config'], function(ToroNg, CanvasHelper,
         mouseYT = parseInt(getMousePos(e).y / ratio);
         startX = mouseXT;
         startY = mouseYT;
-        i = 0;
-        while (i < $scope.memeArray.length) {
+        ref = $scope.memeArray;
+        results = [];
+        for (i = j = 0, len = ref.length; j < len; i = ++j) {
+          text = ref[i];
           if (textHittest(startX, startY, i)) {
-            if ($scope.memeArray[i].dragable === true) {
-              selectHighlight(i);
+            console.log(i);
+            if (text.dragable === true) {
               $scope.$apply(function() {
-                $scope.selectedMemeText = i;
+                return $scope.activedMemeText = i;
               });
-              selectedText = i;
+              results.push(activedDragText = i);
+            } else {
+              results.push(void 0);
             }
+          } else {
+            results.push(void 0);
           }
-          i++;
         }
+        return results;
       };
       handleMouseMove = function(e) {
         var dx, dy, mouse, mouseX, mouseXT, mouseY, mouseYT, newWidth, ratio, text;
-        if (selectedText < 0) {
+        if (activedDragText < 0) {
           return;
         }
         e.preventDefault();
         mouse = getMousePos(e);
         mouseX = mouse.x;
         mouseY = mouse.y;
-        text = $scope.memeArray[selectedText];
+        text = $scope.memeArray[activedDragText];
         newWidth = $canvasEl.width();
         ratio = newWidth / $scope.imgWidth;
         mouseXT = parseInt(mouseX / ratio);
@@ -134,23 +114,21 @@ define(['toro/ng', 'toro/canvas', 'toro/config'], function(ToroNg, CanvasHelper,
       };
       handleMouseUp = function(e) {
         e.preventDefault();
-        selectedText = -1;
-      };
-      randomName = function() {
-        var i, n;
-        n = [];
-        i = 0;
-        while (i < 5) {
-          n.push(Math.floor(Math.random() * 16).toString(16));
-          i++;
-        }
-        return n.join('');
+        activedDragText = -1;
       };
       downloadImage = function(uri, name) {
-        var link;
-        link = angular.element('<a>')[0];
+        var $area, $link, link;
+        $area = angular.element($scope.config.downloadLinkSelector);
+        $link = angular.element('<a>');
+        $link.on('click', function() {
+          return $link.remove();
+        });
+        $area.append($link);
+        link = $link[0];
         link.download = name;
         link.href = uri;
+        link.innerHTML = $scope.config.clickToDownload;
+        link.target = '_new';
         return link.click();
       };
       $scope.applyChange = function() {
@@ -166,28 +144,28 @@ define(['toro/ng', 'toro/canvas', 'toro/config'], function(ToroNg, CanvasHelper,
         }
         return num;
       };
-      $scope.txtAlign = function(memeId, align) {
-        $scope.memeArray[memeId].align = align;
+      $scope.applyAttr = function(memeId, attr, value) {
+        $scope.memeArray[memeId][attr] = value;
         $scope.applyChange();
       };
-      $scope.txtSize = function(memeId, size) {
-        $scope.memeArray[memeId].size = size;
-        $scope.applyChange();
-      };
-      $scope.pickFontColor = function(memeId, color) {
-        $scope.memeArray[memeId].color = color;
-        $scope.applyChange();
-      };
-      $scope.pickShadowColor = function(memeId, color) {
-        $scope.memeArray[memeId].shadowColor = color;
-        $scope.applyChange();
-      };
-      $scope.applyImage = function(img) {
-        $scope.selectedImage = img;
-        $scope.applyChange();
+      $scope.applyImage = function(image) {
+        var $state, img;
+        img = new Image;
+        img.setAttribute('crossOrigin', 'anonymous');
+        img.src = image;
+        $state = angular.element($scope.config.canvasStateSelector);
+        $state.addClass('loading');
+        img.onload = function(e) {
+          $state.removeClass('loading');
+          $scope.selectedImage = image;
+          return $scope.applyChange();
+        };
         $('body').animate({
           scrollTop: $canvasEl.position().top - 40
         }, 600);
+      };
+      $scope.memeActive = function(index) {
+        return $scope.activedMemeText = index;
       };
       $scope.reset = function() {
         $scope.memeArray = originMeme;
@@ -200,7 +178,7 @@ define(['toro/ng', 'toro/canvas', 'toro/config'], function(ToroNg, CanvasHelper,
         myInterval = setInterval((function() {
           var uri;
           uri = $canvasEl[0].toDataURL();
-          downloadImage(uri, 'Balltoro-haha_' + randomName());
+          downloadImage(uri, 'balltoro-haha-' + (new Date()).getTime());
           $scope.repeatSwear(false);
           clearInterval(myInterval);
         }), 10);
@@ -231,14 +209,6 @@ define(['toro/ng', 'toro/canvas', 'toro/config'], function(ToroNg, CanvasHelper,
       $canvasEl.mousemove(handleMouseMove);
       $canvasEl.mouseup(handleMouseUp);
       $canvasEl.mouseout(handleMouseUp);
-      $canvasEl.dblclick(function(e) {
-        var $input;
-        handleMouseDown(e);
-        $input = $('#txt' + selectedText);
-        $input.focus();
-        $input.select();
-        handleMouseUp(e);
-      });
       promise = $http({
         type: 'GET',
         url: '/swears'
@@ -246,10 +216,41 @@ define(['toro/ng', 'toro/canvas', 'toro/config'], function(ToroNg, CanvasHelper,
       promise.then(function(xhr) {
         return swearWords = JSON.parse(xhr.data.sw);
       });
-      return $('.colorpicker').colorpicker().on('changeColor', function() {
-        var color;
-        color = $(this).data('colorpicker').getValue();
-        return $scope.pickFontColor($(this).data('memeid'), color);
+      $scope.spectrumOptions = {
+        showPaletteOnly: true,
+        togglePaletteOnly: true,
+        togglePaletteMoreText: 'More',
+        togglePaletteLessText: 'Less',
+        preferredFormat: 'hex',
+        color: $scope.activedAttr.fontColor,
+        palette: $scope.colorPalette
+      };
+      $scope.$watch('fontColor', function(value) {
+        return $scope.applyAttr($scope.activedMemeText, 'fontColor', value || '#ffffff');
+      });
+      $scope.$watch('fontSize', function(value) {
+        if (!value) {
+          return;
+        }
+        return $scope.applyAttr($scope.activedMemeText, 'fontSize', value);
+      });
+      $scope.$watch('fontStyle', function(value) {
+        return $scope.applyAttr($scope.activedMemeText, 'fontStyle', value || 'normal');
+      });
+      $scope.$watch('fontFace', function(value) {
+        if (!value) {
+          return;
+        }
+        return $scope.applyAttr($scope.activedMemeText, 'fontFace', value);
+      });
+      return $scope.$watch('activedMemeText', function(activeIndex) {
+        var attr;
+        $scope.activedAttr = attr = $scope.memeArray[activeIndex];
+        $scope.fontColor = attr.fontColor;
+        $scope.fontFace = attr.fontFace;
+        $scope.fontStyle = attr.fontStyle;
+        $scope.fontSize = attr.fontSize;
+        return $('txt' + activeIndex).focus();
       });
     }
   ]);

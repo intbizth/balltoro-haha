@@ -3,7 +3,7 @@
     <!DOCTYPE html>
     <html{{ i_html|raw }} lang="{{ app.request.locale|split('_')[0] }}">
     <head>
-        <title>{% block title %}{{ ui_page_get('title') }}{% endblock %}</title>
+        <title>{% block title %}{{ ui_page_get('title')|default("คำบอลโดนๆ - balltoro.com") }}{% endblock %}</title>
         {% block metas %}{% include 'AppBundle:Front:metas.html.twig' %}{% endblock %}
         {% block styles %}{% include 'AppBundle:Front:stylesheets.html.twig' %}{% endblock %}
     </head>
@@ -11,18 +11,35 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <img class="main-logo" src="{{ asset('bundles/app/front/asset/images/main-logo.png') }}" alt="balltoro.com">
+                <img class="main-logo" src="{{ asset('bundles/app/front/asset/images/main-logo.png') }}"
+                     alt="balltoro.com">
+            </div>
+            <div class="navbar-header-right visible-lg">
+                <img src="{{ asset('bundles/app/front/asset/images/meme-header.png') }}">
             </div>
         </div>
     </nav>
 
-    <div class="container">
+    <div class="nav2">
+        <div class="container">
+            <div><h1>คำบอลโดนๆ</h1></div>
+        </div>
+    </div>
 
+    <div class="container content">
         <div class="starter-template">
             {% block content %}{% endblock %}
         </div>
-
     </div>
+
+    <footer>
+        <div class="container">
+            <div class="hint">
+                เว็บไซต์นี้จัดทำขึ้นเพื่อความบันเทิงด้านกีฬาฟุตบอล มีเจตนาเพียงให้ทุกคนสามารถสร้างป้ายโดนๆ
+                หรือล้อเลียนฟตุบอลเพื่อความบันเทิง มิได้มีเจตนาแสวงหาผลประโยชน์หรือสร้างความเสื่อมเสียให้กับผู้ใดทั้งสิ้น
+            </div>
+        </div>
+    </footer>
 
     {% block scripts %}{% include 'AppBundle:Front:javascripts.html.twig' %}{% endblock %}
     </body>

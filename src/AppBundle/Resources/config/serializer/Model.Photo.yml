@@ -32,4 +32,4 @@ AppBundle\Model\Photo:
               absolute: true
               parameters:
                   path: expr(object.getSelfPath())
-                  sizing: 100x100
+                  sizing: 260x140
