@@ -42,7 +42,7 @@ define ->
         ###
 
         for line, i in lines
-            ctx.strokeText(line, x, y + (i * lineHeight))
+            #ctx.strokeText(line, x, y + (i * lineHeight))
             ctx.fillText(line, x, y + (i * lineHeight))
 
     Canvas::draw = ->
