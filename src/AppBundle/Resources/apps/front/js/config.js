@@ -64,6 +64,6 @@ requirejs.config({
 });
 
 require(['selectize', 'toro/app'], function(selectize) {
-  window.Selectize = selectize;
+  window['Selectize'] = selectize;
   return angular.bootstrap(document, ['ToroHahaFront']);
 });

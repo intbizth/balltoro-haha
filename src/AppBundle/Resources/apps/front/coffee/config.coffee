@@ -63,5 +63,5 @@ requirejs.config
         "lightbox2": deps: ["jquery"]
 
 require ['selectize', 'toro/app'], (selectize) ->
-    window.Selectize = selectize
+    window['Selectize'] = selectize
     angular.bootstrap document, ['ToroHahaFront']

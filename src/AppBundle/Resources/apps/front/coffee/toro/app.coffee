@@ -1,9 +1,12 @@
 define [
     'jquery'
     'lightbox2'
+    'selectize'
+    'spectrum'
     'toro/controller/main'
     'toro/controller/photo-list'
-], ($, lightbox2) ->
+], ($, lightbox2, selectize, spectrum) ->
+    window['Selectize'] = selectize
     console.info 'Toro Front app started.'
 
     $ ->
