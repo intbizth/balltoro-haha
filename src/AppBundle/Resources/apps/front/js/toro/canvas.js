@@ -34,7 +34,6 @@ define(function() {
     results = [];
     for (i = j = 0, len = lines.length; j < len; i = ++j) {
       line = lines[i];
-      ctx.strokeText(line, x, y + (i * lineHeight));
       results.push(ctx.fillText(line, x, y + (i * lineHeight)));
     }
     return results;
