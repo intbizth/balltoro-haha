@@ -15,7 +15,9 @@ define ['toro/ng'], (ToroNg) ->
                 placeholder: 'กรองตามหมวดหมู่'
 
             $scope.$watch 'category', (value) ->
+                # reset
                 $scope.photos.page = 0
+                $scope.photos.ended = no
                 $scope.photos.items = []
                 $scope.photos.category = value
                 $scope.photos.nextPage(value)

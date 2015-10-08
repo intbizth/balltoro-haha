@@ -11,7 +11,7 @@
             form: {
                 context: form,
                 start: {'action': path('route_photo_create')},
-                start: {'action': path('route_photo_update', {id: photo.id}), 'method': 'PUT'},
+                start: {'action': path('route_photo_update', {id: photo.id}), 'method': 'PATCH'},
                 end: {render_rest: false}
             }
         }

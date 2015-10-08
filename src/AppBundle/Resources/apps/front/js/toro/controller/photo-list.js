@@ -16,6 +16,7 @@ define(['toro/ng'], function(ToroNg) {
       };
       $scope.$watch('category', function(value) {
         $scope.photos.page = 0;
+        $scope.photos.ended = false;
         $scope.photos.items = [];
         $scope.photos.category = value;
         return $scope.photos.nextPage(value);
