@@ -1,7 +1,7 @@
 define(['angular'], function(angular) {
   var ToroHahaFront;
   angular.element('body').attr('ng-controller', 'MainController');
-  ToroHahaFront = angular.module('ToroHahaFront', ['ui.router', 'ui.slimscroll', 'selectize', 'ngDragDrop', 'angularSpectrumColorpicker']);
+  ToroHahaFront = angular.module('ToroHahaFront', ['ui.slimscroll', 'selectize', 'angularSpectrumColorpicker']);
   ToroHahaFront.config([
     '$httpProvider', function($httpProvider) {
       return $httpProvider.defaults.paramSerializer = '$httpParamSerializerJQLike';
